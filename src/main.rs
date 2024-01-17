@@ -1,4 +1,6 @@
 use clap::Parser;
+mod files;
+mod code_runner;
 
 /// My lang
 #[derive(Parser)]
@@ -17,17 +19,10 @@ fn main() {
     let cli = Cli::parse();
 
     if cli.update {
-        self_update();
-        return;
-    }
-
-    if cli.path != None {
-        println!("run code");
+        println!("updating");
+    } else if cli.path != None {
+        code_runner::run(cli.path.unwrap());
     } else {
         println!("enter the command --help or any other command");
     }
-}
-
-fn self_update() {
-    println!("updating");
 }
