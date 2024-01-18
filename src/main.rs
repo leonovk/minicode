@@ -1,6 +1,7 @@
 use clap::Parser;
-mod files;
 mod code_runner;
+mod files;
+mod parser;
 
 /// My lang
 #[derive(Parser)]

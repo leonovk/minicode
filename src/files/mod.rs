@@ -1,3 +1,4 @@
+use std::fs;
 use std::fs::File;
 use std::io::{self, BufRead};
 
@@ -13,13 +14,26 @@ pub fn get_lines(file_path: &String) -> Vec<String> {
     result
 }
 
+pub fn get_content(file_path: &String) -> String {
+    fs::read_to_string(file_path).expect("Should have been able to read the file")
+}
+
 #[cfg(test)]
 mod tests {
-    use crate::files::get_lines;
+    use crate::files::*;
 
     #[test]
     fn test_get_lines() {
         let path = "test/test_file.txt".to_string();
-        assert_eq!(get_lines(&path), vec!["first".to_string(), "second".to_string()]);
+        assert_eq!(
+            get_lines(&path),
+            vec!["first".to_string(), "second".to_string()]
+        );
+    }
+
+    #[test]
+    fn test_get_content() {
+        let path = "test/test_file.txt".to_string();
+        assert_eq!(get_content(&path), "first\nsecond".to_string());
     }
 }
