@@ -14,7 +14,6 @@ pub fn get_lines(file_path: &String) -> Vec<String> {
     result
 }
 
-#[allow(dead_code)]
 pub fn get_content(file_path: &String) -> String {
     fs::read_to_string(file_path).expect("Should have been able to read the file")
 }
