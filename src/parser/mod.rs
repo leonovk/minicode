@@ -5,6 +5,10 @@ pub fn parse(lines: &Vec<String>) -> Vec<OpCode> {
     let mut result: Vec<OpCode> = Vec::new();
 
     for line in lines {
+        if line == "" {
+            continue;
+        }
+
         let opcode = opcode_parser::get_opcode(line);
         result.push(opcode);
     }

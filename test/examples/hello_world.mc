@@ -1,4 +1,3 @@
-> a 231
-> b "hello world"
+> a "hello world"
 p a
-p b
+> fsf=
