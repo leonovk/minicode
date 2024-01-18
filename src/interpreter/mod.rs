@@ -11,15 +11,13 @@ pub fn exegete(operations: Vec<OpCode>) {
 
     while pointer <= code_max_point {
         let operation = &operations[pointer];
-        eval(operation, &mut addresses);
-        pointer += 1;
-    }
-}
 
-pub fn eval<'a>(operation: &'a OpCode, values: &mut HashMap<&'a String, ValueType>) {
-    match operation {
-        Create(k, v) => code_operations::create(k, v, values),
-        Print(k) => code_operations::print_value(k, values),
-        ErrorCode(e) => panic!("{}", e),
+        match operation {
+            Create(k, v) => code_operations::create(k, v, &mut addresses),
+            Print(k) => code_operations::print_value(k, &addresses),
+            ErrorCode(e) => panic!("{}", e),
+        }
+
+        pointer += 1;
     }
 }
