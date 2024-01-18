@@ -4,6 +4,7 @@ mod files;
 mod parser;
 mod self_update;
 mod opcode;
+mod interpreter;
 
 /// My lang
 #[derive(Parser)]
