@@ -2,6 +2,8 @@ use clap::Parser;
 mod code_runner;
 mod files;
 mod parser;
+mod self_update;
+mod opcode;
 
 /// My lang
 #[derive(Parser)]
@@ -20,7 +22,7 @@ fn main() {
     let cli = Cli::parse();
 
     if cli.update {
-        println!("updating");
+        self_update::update();
     } else if cli.path != None {
         code_runner::run(cli.path.unwrap());
     } else {
