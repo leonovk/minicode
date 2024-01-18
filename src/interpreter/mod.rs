@@ -20,6 +20,6 @@ pub fn eval<'a>(operation: &'a OpCode, values: &mut HashMap<&'a String, ValueTyp
     match operation {
         Create(k, v) => code_operations::create(k, v, values),
         Print(k) => code_operations::print_value(k, values),
-        ErrorCode(e) => panic!("{}", e)
+        ErrorCode(e) => panic!("{}", e),
     }
 }
