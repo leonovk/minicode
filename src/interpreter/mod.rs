@@ -19,7 +19,9 @@ pub fn exegete(operations: Vec<OpCode>) {
             ErrorCode(e) => panic!("{}", e),
             Condition(k, v, b, p) => {
                 let result = code_operations::condition(k, b, v, &addresses);
-                if result { new_pointer(&mut pointer, p); }
+                if result {
+                    new_pointer(&mut pointer, p);
+                }
             }
         }
 
