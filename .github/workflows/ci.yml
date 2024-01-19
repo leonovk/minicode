@@ -1,0 +1,40 @@
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+
+name: CI
+
+jobs:
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions-rs/toolchain@v1.0.7
+        with:
+          toolchain: 1.74.1
+          components: rustfmt
+
+      - name: Run rustfmt
+        run: cargo fmt -- --check
+
+  test:
+    needs: [fmt]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions-rs/toolchain@v1.0.7
+        with:
+          name: test-${{matrix.os}}
+          toolchain: 1.74.1
+
+      - name: Run unit tests
+        run: cargo test --locked --all-targets --workspace --all-features
+        timeout-minutes: 10
