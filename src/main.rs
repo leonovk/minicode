@@ -22,7 +22,10 @@ fn main() {
     let cli = Cli::parse();
 
     if cli.update {
-        self_update::update();
+        if let Err(e) = self_update::update() {
+            println!("[ERROR] {}", e);
+            ::std::process::exit(1);
+        }
     } else if cli.path != None {
         code_runner::run(cli.path.unwrap());
     } else {
