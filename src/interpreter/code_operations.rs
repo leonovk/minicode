@@ -21,9 +21,9 @@ pub fn calculate<'a>(
     let old_value = match target.get(key) {
         Some(s) => match s {
             Int(i) => i,
-            Line(_s) => &0,
+            Line(_s) => panic!("wrong type for calculate"),
         },
-        None => &0,
+        None => panic!("not value for calculate"),
     };
 
     let new_value = match o_type {
@@ -51,9 +51,9 @@ pub fn condition(
                     return i != target_value;
                 }
             }
-            Line(_s) => panic!("not value"),
+            Line(_s) => panic!("condition - wrong type value"),
         },
-        None => panic!("not value"),
+        None => panic!("condition - not value"),
     };
 }
 
@@ -65,6 +65,6 @@ pub fn print_value(key: &String, storage: &HashMap<&String, ValueType>) {
             Int(i) => println!("{}", i),
             Line(s) => println!("{}", s),
         },
-        None => panic!("not value"),
+        None => panic!("not value for print"),
     };
 }

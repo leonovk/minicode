@@ -19,7 +19,7 @@ pub fn get_opcode(line: &String) -> OpCode {
     } else if parts[0] == "?" {
         opcode_operations::condition(parts)
     } else {
-        ErrorCode("no command".to_string())
+        ErrorCode("Could not recognize the command".to_string())
     }
 }
 
