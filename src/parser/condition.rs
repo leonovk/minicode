@@ -2,6 +2,10 @@ use crate::opcode::OpCode;
 use crate::opcode::OpCode::*;
 
 pub fn condition(data: Vec<&str>) -> OpCode {
+    if data.len() != 5 {
+        return ErrorCode("the operation is not specified correctly".to_string());
+    }
+
     let value_name = data[1].to_string();
     let true_or_false = match data[2] {
         "=" => true,

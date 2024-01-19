@@ -5,22 +5,24 @@ use super::appropriation::appropriation;
 use super::calculation::calculation;
 use super::condition::condition;
 use super::file::file;
+use super::print::print;
 use super::user_var::user_var;
 
 pub fn get_opcode(line: &String) -> OpCode {
     let parts: Vec<&str> = line.split_whitespace().collect();
+    let command = parts[0];
 
-    if parts[0] == ">" {
+    if command == ">" {
         appropriation(parts)
-    } else if parts[0] == "p" {
-        Print(parts[1].to_string())
-    } else if parts[0] == "f" {
+    } else if command == "p" {
+        print(parts)
+    } else if command == "f" {
         file(parts)
-    } else if parts[0] == "$>" {
+    } else if command == "$>" {
         user_var(parts)
-    } else if parts[0] == "=" {
+    } else if command == "=" {
         calculation(parts)
-    } else if parts[0] == "?" {
+    } else if command == "?" {
         condition(parts)
     } else {
         ErrorCode("Could not recognize the command".to_string())

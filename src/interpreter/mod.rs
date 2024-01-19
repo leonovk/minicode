@@ -2,7 +2,14 @@ use crate::opcode::OpCode;
 use crate::opcode::OpCode::*;
 use crate::opcode::ValueType;
 use std::collections::HashMap;
-mod code_operations;
+mod calculate;
+mod condition;
+mod create;
+mod print_value;
+use calculate::calculate;
+use condition::condition;
+use create::create;
+use print_value::print_value;
 
 pub fn exegete(operations: Vec<OpCode>) {
     let code_max_point = operations.len() - 1;
@@ -13,15 +20,15 @@ pub fn exegete(operations: Vec<OpCode>) {
         let operation = &operations[pointer];
 
         match operation {
-            Create(k, v) => code_operations::create(k, v, &mut addresses),
-            Print(k) => code_operations::print_value(k, &addresses),
-            Operation(k, o, v) => code_operations::calculate(k, o, v, &mut addresses),
+            Create(k, v) => create(k, v, &mut addresses),
+            Print(k) => print_value(k, &addresses),
+            Operation(k, o, v) => calculate(k, o, v, &mut addresses),
             ErrorCode(e) => {
                 println!("{} - line - {}", e, pointer + 1);
                 break;
             }
             Condition(k, v, b, p) => {
-                let result = code_operations::condition(k, b, v, &addresses);
+                let result = condition(k, b, v, &addresses);
                 if result {
                     new_pointer(&mut pointer, p);
                 }
