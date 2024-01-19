@@ -40,7 +40,7 @@ mod tests {
             Create("b".to_string(), Line("'hello world'".to_string())),
             Print("a".to_string()),
             Print("b".to_string()),
-            ErrorCode("no command".to_string()),
+            ErrorCode("Could not recognize the command".to_string()),
         ];
 
         let mut i = 0;
