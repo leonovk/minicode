@@ -89,6 +89,12 @@ For example:
 $> a
 ```
 
+Also, as the third parameter, you can specify the text that will be shown to the user when requesting a value. For example:
+
+```
+$> a text
+```
+
 ### Arithmetic operations
 
 Arithmetic operations are carried out through the command `a`

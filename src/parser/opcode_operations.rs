@@ -44,7 +44,9 @@ pub fn condition(data: Vec<&str>) -> OpCode {
 pub fn user_var(data: Vec<&str>) -> OpCode {
     let mut input = String::new();
     let value_name = data[1].to_string();
-    io::stdin().read_line(&mut input).expect("dont read");
+    let output = data.into_iter().skip(2).collect::<Vec<&str>>().join(" ");
+    println!("{}", output);
+    io::stdin().read_line(&mut input).expect("cant read");
     match input.trim().parse::<i64>() {
         Ok(parsed) => Create(value_name, Int(parsed)),
         Err(_e) => Create(value_name, Line(input)),
