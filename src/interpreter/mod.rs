@@ -17,8 +17,20 @@ pub fn exegete(operations: Vec<OpCode>) {
             Print(k) => code_operations::print_value(k, &addresses),
             Operation(k, o, v) => code_operations::calculate(k, o, v, &mut addresses),
             ErrorCode(e) => panic!("{}", e),
+            Condition(k, v, b, p) => {
+                let result = code_operations::condition(k, b, v, &addresses);
+                if result { new_pointer(&mut pointer, p); }
+            }
         }
 
         pointer += 1;
+    }
+}
+
+fn new_pointer(pointer: &mut usize, new: &usize) {
+    if *new > 2 {
+        *pointer = *new - 2;
+    } else {
+        *pointer = 0;
     }
 }

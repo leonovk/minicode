@@ -16,6 +16,8 @@ pub fn get_opcode(line: &String) -> OpCode {
         opcode_operations::user_var(parts)
     } else if parts[0] == "=" {
         opcode_operations::calculation(parts)
+    } else if parts[0] == "?" {
+        opcode_operations::condition(parts)
     } else {
         ErrorCode("no command".to_string())
     }
