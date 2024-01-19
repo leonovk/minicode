@@ -16,7 +16,10 @@ pub fn exegete(operations: Vec<OpCode>) {
             Create(k, v) => code_operations::create(k, v, &mut addresses),
             Print(k) => code_operations::print_value(k, &addresses),
             Operation(k, o, v) => code_operations::calculate(k, o, v, &mut addresses),
-            ErrorCode(e) => println!("{} - line - {}", e, pointer + 1),
+            ErrorCode(e) => {
+                println!("{} - line - {}", e, pointer + 1);
+                break;
+            }
             Condition(k, v, b, p) => {
                 let result = code_operations::condition(k, b, v, &addresses);
                 if result {
