@@ -5,8 +5,15 @@ pub enum ValueType {
 }
 
 #[derive(PartialEq, Debug)]
+pub enum OperationType {
+    Increment,
+    Decrement,
+}
+
+#[derive(PartialEq, Debug)]
 pub enum OpCode {
     Create(String, ValueType),
     Print(String),
+    Operation(String, OperationType, i64),
     ErrorCode(String),
 }

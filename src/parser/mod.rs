@@ -1,3 +1,4 @@
+mod opcode_operations;
 mod opcode_parser;
 use crate::opcode::*;
 

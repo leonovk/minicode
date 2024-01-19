@@ -15,6 +15,7 @@ pub fn exegete(operations: Vec<OpCode>) {
         match operation {
             Create(k, v) => code_operations::create(k, v, &mut addresses),
             Print(k) => code_operations::print_value(k, &addresses),
+            Operation(k, o, v) => code_operations::calculate(k, o, v, &mut addresses),
             ErrorCode(e) => panic!("{}", e),
         }
 

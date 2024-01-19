@@ -6,7 +6,6 @@ mod opcode;
 mod parser;
 mod self_update;
 
-/// My lang
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 struct Cli {
