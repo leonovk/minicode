@@ -1,23 +1,27 @@
 pub use crate::opcode::OpCode;
 pub use crate::opcode::OpCode::*;
 
-use super::opcode_operations;
+use super::appropriation::appropriation;
+use super::calculation::calculation;
+use super::condition::condition;
+use super::file::file;
+use super::user_var::user_var;
 
 pub fn get_opcode(line: &String) -> OpCode {
     let parts: Vec<&str> = line.split_whitespace().collect();
 
     if parts[0] == ">" {
-        opcode_operations::appropriation(parts)
+        appropriation(parts)
     } else if parts[0] == "p" {
         Print(parts[1].to_string())
     } else if parts[0] == "f" {
-        opcode_operations::file(parts)
+        file(parts)
     } else if parts[0] == "$>" {
-        opcode_operations::user_var(parts)
+        user_var(parts)
     } else if parts[0] == "=" {
-        opcode_operations::calculation(parts)
+        calculation(parts)
     } else if parts[0] == "?" {
-        opcode_operations::condition(parts)
+        condition(parts)
     } else {
         ErrorCode("Could not recognize the command".to_string())
     }

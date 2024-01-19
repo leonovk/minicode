@@ -1,5 +1,9 @@
-mod opcode_operations;
+mod appropriation;
+mod calculation;
+mod condition;
+mod file;
 mod opcode_parser;
+mod user_var;
 use crate::opcode::*;
 
 pub fn parse(lines: &Vec<String>) -> Vec<OpCode> {
