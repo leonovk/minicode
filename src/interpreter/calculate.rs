@@ -25,3 +25,27 @@ pub fn calculate<'a>(
 
     target.insert(key, Int(new_value));
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::collections::HashMap;
+
+    #[test]
+    fn test_calculate_increment() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let binding = String::from("test_key");
+        map.insert(&binding, Int(10));
+        calculate(&binding, &OperationType::Increment, &5, &mut map);
+        assert_eq!(map.get(&String::from("test_key")), Some(&Int(15)));
+    }
+
+    #[test]
+    fn test_calculate_decrement() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let binding = String::from("test_key");
+        map.insert(&binding, Int(10));
+        calculate(&binding, &OperationType::Decrement, &3, &mut map);
+        assert_eq!(map.get(&String::from("test_key")), Some(&Int(7)));
+    }
+}
