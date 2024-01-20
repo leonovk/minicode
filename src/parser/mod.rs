@@ -53,8 +53,8 @@ mod tests {
             ErrorCode("Could not recognize the command".to_string()),
             Operation("a".to_string(), Increment, 1),
             Operation("a".to_string(), Decrement, 1),
-            Condition("a".to_string(), 5, false, 3),
-            Condition("a".to_string(), 5, true, 3),
+            Condition("a".to_string(), Int(5), false, 3),
+            Condition("a".to_string(), Int(5), true, 3),
         ];
 
         let mut i = 0;
