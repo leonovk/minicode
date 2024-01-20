@@ -39,20 +39,29 @@ mod tests {
     fn test_appropriation_long_line() {
         let data = vec![">", "a", "1d", "dsad", "123"];
         let result = appropriation(data);
-        assert_eq!(result, Create("a".to_string(), Line("1d dsad 123".to_string())));
+        assert_eq!(
+            result,
+            Create("a".to_string(), Line("1d dsad 123".to_string()))
+        );
     }
 
     #[test]
     fn test_appropriation_edge_one() {
         let data = vec![">", "a"];
         let result = appropriation(data);
-        assert_eq!(result, ErrorCode("the operation is not specified correctly".to_string()));
+        assert_eq!(
+            result,
+            ErrorCode("the operation is not specified correctly".to_string())
+        );
     }
 
     #[test]
     fn test_appropriation_edge_two() {
         let data = vec![">"];
         let result = appropriation(data);
-        assert_eq!(result, ErrorCode("the operation is not specified correctly".to_string()));
+        assert_eq!(
+            result,
+            ErrorCode("the operation is not specified correctly".to_string())
+        );
     }
 }
