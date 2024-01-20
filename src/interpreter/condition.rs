@@ -295,14 +295,24 @@ mod tests {
     #[test]
     fn test_condition_where_key_not_in_hash_one() {
         let map: HashMap<&String, ValueType> = HashMap::new();
-        let result = condition(&String::from("test_key"), &true, &Line("test_key_2".to_string()), &map);
+        let result = condition(
+            &String::from("test_key"),
+            &true,
+            &Line("test_key_2".to_string()),
+            &map,
+        );
         assert_eq!(result, false);
     }
 
     #[test]
     fn test_condition_where_key_not_in_hash_two() {
         let map: HashMap<&String, ValueType> = HashMap::new();
-        let result = condition(&String::from("test_key"), &true, &Line("test_key".to_string()), &map);
+        let result = condition(
+            &String::from("test_key"),
+            &true,
+            &Line("test_key".to_string()),
+            &map,
+        );
         assert_eq!(result, true);
     }
 }
