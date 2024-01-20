@@ -15,6 +15,6 @@ pub enum OpCode {
     Create(String, ValueType),
     Print(String),
     Operation(String, OperationType, i64),
-    Condition(String, i64, bool, usize),
+    Condition(String, ValueType, bool, usize),
     ErrorCode(String),
 }

@@ -20,6 +20,7 @@ mod tests {
     use super::appropriation;
     use crate::opcode::OpCode::*;
     use crate::opcode::ValueType::*;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn test_appropriation_int() {

@@ -1,8 +1,9 @@
 [package]
 name = "minicode"
-version = "1.0.1"
+version = "1.0.2"
 edition = "2021"
 
 [dependencies]
 clap = { version = "4.4.13", features = ["derive"] }
+pretty_assertions = "1.4.0"
 self_update = { version = "0.39.0", features = ["archive-tar", "archive-zip", "compression-flate2"] }
