@@ -20,7 +20,11 @@ pub fn condition(
     }
 }
 
-fn condition_result<T: std::cmp::PartialEq>(first: T, second: T, true_or_false: &bool) -> bool {
+fn condition_result(first: &ValueType, second: &ValueType, true_or_false: &bool) -> bool {
+    if type_are_different(first, second) {
+        panic!("You cannot compare values of different types!");
+    }
+
     if *true_or_false {
         return first == second;
     } else {
@@ -28,15 +32,17 @@ fn condition_result<T: std::cmp::PartialEq>(first: T, second: T, true_or_false: 
     }
 }
 
+fn type_are_different(v1: &ValueType, v2: &ValueType) -> bool {
+    match (v1, v2) {
+        (ValueType::Int(_), ValueType::Line(_)) => true,
+        (ValueType::Line(_), ValueType::Int(_)) => true,
+        _ => false,
+    }
+}
+
 #[test]
 fn test_condition_result() {
-    let a = condition_result(1, 2, &true);
-    assert_eq!(a, false);
-
-    let b = condition_result(Int(1), Int(1), &true);
-    assert_eq!(b, true);
-
-    let c = condition_result(Line("dsa".to_string()), Int(1), &true);
+    let c = condition_result(&Int(32), &Int(1), &true);
     assert_eq!(c, false);
 }
 
@@ -80,6 +86,21 @@ mod tests {
         map.insert(&binding, Int(10));
         let result = condition(&String::from("test_key"), &false, &Int(5), &map);
         assert_eq!(result, true);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_condition_int_and_line() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let binding = String::from("test_key");
+        map.insert(&binding, Int(10));
+        let result = condition(
+            &String::from("test_key"),
+            &true,
+            &Line("5".to_string()),
+            &map,
+        );
+        assert_eq!(result, false);
     }
 
     #[test]
