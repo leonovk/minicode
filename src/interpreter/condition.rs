@@ -8,62 +8,42 @@ pub fn condition(
     target_value: &ValueType,
     storage: &HashMap<&String, ValueType>,
 ) -> bool {
-    let value = storage.get(key);
+    let key_string = Line(key.to_string());
+    let first_value = storage.get(key).unwrap_or(&key_string);
 
-    match value {
-        Some(s) => match s {
-            Int(first_integer) => match target_value {
-                Int(second_integer) => {
-                    condition_result(first_integer, second_integer, true_or_false)
-                }
-                Line(second_str) => match storage.get(second_str) {
-                    Some(second_str_value) => match second_str_value {
-                        Int(second_str_value_int) => {
-                            condition_result(first_integer, second_str_value_int, true_or_false)
-                        }
-                        Line(_second_str_value_str) => {
-                            panic!("You can't compare a string with a number")
-                        }
-                    },
-                    None => panic!("You can't compare a string with a number"),
-                },
-            },
-            Line(first_str) => match target_value {
-                Int(_it) => panic!("You can't compare a string with a number"),
-                Line(second_str) => match storage.get(second_str) {
-                    Some(second_str_value) => match second_str_value {
-                        Int(_second_str_value_int) => {
-                            panic!("You can't compare a string with a number")
-                        }
-                        Line(second_str_value_str) => {
-                            condition_result(first_str, second_str_value_str, true_or_false)
-                        }
-                    },
-                    None => condition_result(first_str, second_str, true_or_false),
-                },
-            },
-        },
-        None => match target_value {
-            Int(_second_int) => panic!("You can't compare a string with a number"),
-            Line(second_line) => match storage.get(second_line) {
-                Some(s) => match s {
-                    Int(_second_value_int) => panic!("You can't compare a string with a number"),
-                    Line(second_value_str) => {
-                        condition_result(key, second_value_str, true_or_false)
-                    }
-                },
-                None => condition_result(key, second_line, true_or_false),
-            },
+    match target_value {
+        Int(int) => condition_result(first_value, &Int(*int), true_or_false),
+        Line(str) => match storage.get(str) {
+            Some(some) => condition_result(first_value, some, true_or_false),
+            None => condition_result(first_value, &Line(str.to_string()), true_or_false),
         },
     }
 }
 
-fn condition_result<T: std::cmp::PartialEq>(first: T, second: T, true_or_false: &bool) -> bool {
+fn condition_result(first: &ValueType, second: &ValueType, true_or_false: &bool) -> bool {
+    if type_are_different(first, second) {
+        panic!("You cannot compare values of different types!");
+    }
+
     if *true_or_false {
         return first == second;
     } else {
         return first != second;
     }
+}
+
+fn type_are_different(v1: &ValueType, v2: &ValueType) -> bool {
+    match (v1, v2) {
+        (ValueType::Int(_), ValueType::Line(_)) => true,
+        (ValueType::Line(_), ValueType::Int(_)) => true,
+        _ => false,
+    }
+}
+
+#[test]
+fn test_condition_result() {
+    let c = condition_result(&Int(32), &Int(1), &true);
+    assert_eq!(c, false);
 }
 
 #[cfg(test)]
@@ -106,6 +86,21 @@ mod tests {
         map.insert(&binding, Int(10));
         let result = condition(&String::from("test_key"), &false, &Int(5), &map);
         assert_eq!(result, true);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_condition_int_and_line() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let binding = String::from("test_key");
+        map.insert(&binding, Int(10));
+        let result = condition(
+            &String::from("test_key"),
+            &true,
+            &Line("5".to_string()),
+            &map,
+        );
+        assert_eq!(result, false);
     }
 
     #[test]
