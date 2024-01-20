@@ -29,7 +29,7 @@ pub fn condition(
                 },
             },
             Line(first_str) => match target_value {
-                Int(_it) => panic!("You can't compare a string with a number 2"),
+                Int(_it) => panic!("You can't compare a string with a number"),
                 Line(second_str) => match storage.get(second_str) {
                     Some(second_str_value) => match second_str_value {
                         Int(_second_str_value_int) => {
@@ -225,6 +225,84 @@ mod tests {
             &Line("test_key_2".to_string()),
             &map,
         );
+        assert_eq!(result, true);
+    }
+
+    #[test]
+    fn test_condition_line_key_str_one() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let binding = String::from("test_key");
+        let binding_2 = String::from("test_key_2");
+        map.insert(&binding, Line("10".to_string()));
+        map.insert(&binding_2, Line("10".to_string()));
+        let result = condition(
+            &String::from("test_key"),
+            &true,
+            &Line("test_key_2".to_string()),
+            &map,
+        );
+        assert_eq!(result, true);
+    }
+
+    #[test]
+    fn test_condition_line_key_str_two() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let binding = String::from("test_key");
+        let binding_2 = String::from("test_key_2");
+        map.insert(&binding, Line("10".to_string()));
+        map.insert(&binding_2, Line("10".to_string()));
+        let result = condition(
+            &String::from("test_key"),
+            &false,
+            &Line("test_key_2".to_string()),
+            &map,
+        );
+        assert_eq!(result, false);
+    }
+
+    #[test]
+    fn test_condition_line_key_str_three() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let binding = String::from("test_key");
+        let binding_2 = String::from("test_key_2");
+        map.insert(&binding, Line("10".to_string()));
+        map.insert(&binding_2, Line("1dsa".to_string()));
+        let result = condition(
+            &String::from("test_key"),
+            &false,
+            &Line("test_key_2".to_string()),
+            &map,
+        );
+        assert_eq!(result, true);
+    }
+
+    #[test]
+    fn test_condition_line_key_str_four() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let binding = String::from("test_key");
+        let binding_2 = String::from("test_key_2");
+        map.insert(&binding, Line("10".to_string()));
+        map.insert(&binding_2, Line("1dsa".to_string()));
+        let result = condition(
+            &String::from("test_key"),
+            &true,
+            &Line("test_key_2".to_string()),
+            &map,
+        );
+        assert_eq!(result, false);
+    }
+
+    #[test]
+    fn test_condition_where_key_not_in_hash_one() {
+        let map: HashMap<&String, ValueType> = HashMap::new();
+        let result = condition(&String::from("test_key"), &true, &Line("test_key_2".to_string()), &map);
+        assert_eq!(result, false);
+    }
+
+    #[test]
+    fn test_condition_where_key_not_in_hash_two() {
+        let map: HashMap<&String, ValueType> = HashMap::new();
+        let result = condition(&String::from("test_key"), &true, &Line("test_key".to_string()), &map);
         assert_eq!(result, true);
     }
 }

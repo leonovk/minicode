@@ -12,6 +12,10 @@ use create::create;
 use print_value::print_value;
 
 pub fn exegete(operations: Vec<OpCode>) {
+    if operations.is_empty() {
+        return;
+    }
+
     let code_max_point = operations.len() - 1;
     let mut pointer: usize = 0;
     let mut addresses: HashMap<&String, ValueType> = HashMap::new();
