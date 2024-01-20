@@ -139,6 +139,25 @@ Here's how, for example, to implement a loop that displays the message hello wor
 p b
 ? a ! 5 3
 ```
+The conditions in minicode are quite powerful for typical languages of this class. You can compare and compare all data types with each other (although there are only two of them), but only in accordance with the type. You cannot compare a number with a string. You can also compare values that are in a variable. However, when specifying a variable, keep in mind that the minicode will first try to parse the value into a number, then if that doesn’t work, it will look to see if there is a variable with that name in memory, and if not, it will consider what you specified as a regular string.
+
+For example, the following code will display only `just text` on the screen
+
+```
+> a lol
+> b lol
+? a = b 6
+p a
+p b
+> c 245
+> d 345
+? c ! d 11
+p c
+p d
+> text just text
+p text
+```
+
 You will find more examples in the folder -> test/examples
 
 
