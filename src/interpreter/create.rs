@@ -22,34 +22,51 @@ fn complex_assignments_value<'a>(
     let values: Vec<&str> = expression.split_whitespace().collect();
 
     if values.len() == 2 {
-        match target.get(&values[0].to_string()) {
-            Some(some) => match some {
-                Int(_i) => None,
-                Line(str) => match values[1].to_string().parse::<i64>() {
-                    Ok(parsed) => Some(Line(str.chars().nth(parsed as usize).unwrap().to_string())),
-                    Err(_) => match target.get(&values[1].to_string()) {
-                        Some(some_second) => match some_second {
-                            Int(sec_int) => Some(Line(
-                                str.chars().nth(*sec_int as usize).unwrap().to_string(),
-                            )),
-                            Line(_l) => None,
-                        },
-                        None => None,
-                    },
-                },
-            },
-            None => None,
-        }
+        multiple_values(values, target)
     } else if values.len() == 1 {
-        match target.get(&values[0].to_string()) {
-            Some(s) => match s {
-                Int(int) => Some(Int(*int)),
-                Line(str) => Some(Line(str.to_string())),
-            },
-            None => None,
-        }
+        one_value(values, target)
     } else {
         return None;
+    }
+}
+
+fn multiple_values<'a>(
+    values: Vec<&str>,
+    target: &HashMap<&'a String, ValueType>,
+) -> Option<ValueType> {
+    match target.get(&values[0].to_string()) {
+        Some(some) => match some {
+            Int(_i) => None,
+            Line(str) => match values[1].to_string().parse::<i64>() {
+                Ok(parsed) => Some(Line(parse_char(str, parsed))),
+                Err(_) => match target.get(&values[1].to_string()) {
+                    Some(some_second) => match some_second {
+                        Int(sec_int) => Some(Line(parse_char(str, *sec_int))),
+                        Line(_l) => None,
+                    },
+                    None => None,
+                },
+            },
+        },
+        None => None,
+    }
+}
+
+fn parse_char(str: &String, index: i64) -> String {
+    if (index as usize) > (str.len() - 1) {
+        return "".to_string();
+    } else {
+        return str.chars().nth(index as usize).unwrap().to_string();
+    }
+}
+
+fn one_value<'a>(values: Vec<&str>, target: &HashMap<&'a String, ValueType>) -> Option<ValueType> {
+    match target.get(&values[0].to_string()) {
+        Some(s) => match s {
+            Int(int) => Some(Int(*int)),
+            Line(str) => Some(Line(str.to_string())),
+        },
+        None => None,
     }
 }
 
@@ -171,5 +188,24 @@ mod tests {
 
         assert_eq!(result_1, Some(&Int(1)));
         assert_eq!(result_2, Some(&Line("old_key 2".to_string())));
+    }
+
+    #[test]
+    fn test_not_stand_create_two() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let old_key = String::from("old_key");
+        let old_key_2 = String::from("old_key_2");
+        let new_key = String::from("new_key");
+
+        map.insert(&old_key, Line("line".to_string()));
+        map.insert(&old_key_2, Int(10));
+
+        create(&new_key, &Line("old_key old_key_2".to_string()), &mut map);
+
+        let result_1 = map.get(&old_key);
+        let result_2 = map.get(&new_key);
+
+        assert_eq!(result_1, Some(&Line("line".to_string())));
+        assert_eq!(result_2, Some(&Line("".to_string())));
     }
 }
