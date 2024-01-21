@@ -117,6 +117,8 @@ For example, how to subtract a number from a variable:
 = a - 12
 ```
 
+Multiplication and division are also supported. The second argument can be variables.
+
 ### Conditions and cycles
 
 At the end of each condition there is a line number where the interpreter will go if the condition is true. Accordingly, if you send the interpreter back, you can implement loops, and if you send it forward, you can implement conditional branches.
