@@ -3,7 +3,7 @@ use crate::opcode::OpCode::*;
 use crate::opcode::ValueType::*;
 
 pub fn appropriation(data: Vec<&str>) -> OpCode {
-    if data.len() < 3 {
+    if data.len() < 2 {
         return ErrorCode("the operation is not specified correctly".to_string());
     }
 
@@ -50,10 +50,7 @@ mod tests {
     fn test_appropriation_edge_one() {
         let data = vec![">", "a"];
         let result = appropriation(data);
-        assert_eq!(
-            result,
-            ErrorCode("the operation is not specified correctly".to_string())
-        );
+        assert_eq!(result, Create("a".to_string(), Line("".to_string())));
     }
 
     #[test]
