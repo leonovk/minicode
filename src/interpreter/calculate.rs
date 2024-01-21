@@ -87,4 +87,44 @@ mod tests {
         calculate(&binding, &OperationType::Decrement, &Line("test_key_2".to_string()), &mut map);
         assert_eq!(map.get(&String::from("test_key")), Some(&Int(5)));
     }
+
+    #[test]
+    fn test_calculate_multy_one() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let binding = String::from("test_key");
+        map.insert(&binding, Int(10));
+        calculate(&binding, &OperationType::Multiplication, &Int(3), &mut map);
+        assert_eq!(map.get(&String::from("test_key")), Some(&Int(30)));
+    }
+
+    #[test]
+    fn test_calculate_multy_two() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let binding = String::from("test_key");
+        let binding_2 = String::from("test_key_2");
+        map.insert(&binding, Int(10));
+        map.insert(&binding_2, Int(5));
+        calculate(&binding, &OperationType::Multiplication, &Line("test_key_2".to_string()), &mut map);
+        assert_eq!(map.get(&String::from("test_key")), Some(&Int(50)));
+    }
+
+    #[test]
+    fn test_calculate_divi_one() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let binding = String::from("test_key");
+        map.insert(&binding, Int(10));
+        calculate(&binding, &OperationType::Division, &Int(3), &mut map);
+        assert_eq!(map.get(&String::from("test_key")), Some(&Int(3)));
+    }
+
+    #[test]
+    fn test_calculate_divi_two() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let binding = String::from("test_key");
+        let binding_2 = String::from("test_key_2");
+        map.insert(&binding, Int(10));
+        map.insert(&binding_2, Int(5));
+        calculate(&binding, &OperationType::Division, &Line("test_key_2".to_string()), &mut map);
+        assert_eq!(map.get(&String::from("test_key")), Some(&Int(2)));
+    }
 }
