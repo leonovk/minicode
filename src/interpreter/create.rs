@@ -155,4 +155,21 @@ mod tests {
         assert_eq!(result_1, Some(&Line("line".to_string())));
         assert_eq!(result_2, Some(&Line("i".to_string())));
     }
+
+    #[test]
+    fn test_not_stand_create_one() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let old_key = String::from("old_key");
+        let new_key = String::from("new_key");
+
+        map.insert(&old_key, Int(1));
+
+        create(&new_key, &Line("old_key 2".to_string()), &mut map);
+
+        let result_1 = map.get(&old_key);
+        let result_2 = map.get(&new_key);
+
+        assert_eq!(result_1, Some(&Int(1)));
+        assert_eq!(result_2, Some(&Line("old_key 2".to_string())));
+    }
 }
