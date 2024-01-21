@@ -64,7 +64,12 @@ mod tests {
         let binding_2 = String::from("test_key_2");
         map.insert(&binding, Int(10));
         map.insert(&binding_2, Int(5));
-        calculate(&binding, &OperationType::Increment, &Line("test_key_2".to_string()), &mut map);
+        calculate(
+            &binding,
+            &OperationType::Increment,
+            &Line("test_key_2".to_string()),
+            &mut map,
+        );
         assert_eq!(map.get(&String::from("test_key")), Some(&Int(15)));
     }
 
@@ -84,7 +89,12 @@ mod tests {
         let binding_2 = String::from("test_key_2");
         map.insert(&binding, Int(10));
         map.insert(&binding_2, Int(5));
-        calculate(&binding, &OperationType::Decrement, &Line("test_key_2".to_string()), &mut map);
+        calculate(
+            &binding,
+            &OperationType::Decrement,
+            &Line("test_key_2".to_string()),
+            &mut map,
+        );
         assert_eq!(map.get(&String::from("test_key")), Some(&Int(5)));
     }
 
@@ -104,7 +114,12 @@ mod tests {
         let binding_2 = String::from("test_key_2");
         map.insert(&binding, Int(10));
         map.insert(&binding_2, Int(5));
-        calculate(&binding, &OperationType::Multiplication, &Line("test_key_2".to_string()), &mut map);
+        calculate(
+            &binding,
+            &OperationType::Multiplication,
+            &Line("test_key_2".to_string()),
+            &mut map,
+        );
         assert_eq!(map.get(&String::from("test_key")), Some(&Int(50)));
     }
 
@@ -124,7 +139,12 @@ mod tests {
         let binding_2 = String::from("test_key_2");
         map.insert(&binding, Int(10));
         map.insert(&binding_2, Int(5));
-        calculate(&binding, &OperationType::Division, &Line("test_key_2".to_string()), &mut map);
+        calculate(
+            &binding,
+            &OperationType::Division,
+            &Line("test_key_2".to_string()),
+            &mut map,
+        );
         assert_eq!(map.get(&String::from("test_key")), Some(&Int(2)));
     }
 }
