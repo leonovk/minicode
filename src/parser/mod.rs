@@ -51,8 +51,8 @@ mod tests {
             Print("a".to_string()),
             Print("b".to_string()),
             ErrorCode("Could not recognize the command".to_string()),
-            Operation("a".to_string(), Increment, 1),
-            Operation("a".to_string(), Decrement, 1),
+            Operation("a".to_string(), Increment, Int(1)),
+            Operation("a".to_string(), Decrement, Int(1)),
             Condition("a".to_string(), Int(5), false, 3),
             Condition("a".to_string(), Int(5), true, 3),
         ];
