@@ -5,6 +5,7 @@ mod file;
 mod opcode_parser;
 mod print;
 mod user_var;
+mod write;
 use crate::opcode::*;
 
 pub fn parse(lines: &Vec<String>) -> Vec<OpCode> {
@@ -12,6 +13,7 @@ pub fn parse(lines: &Vec<String>) -> Vec<OpCode> {
 
     for line in lines {
         if line == "" {
+            result.push(OpCode::EmptyLine);
             continue;
         }
 

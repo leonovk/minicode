@@ -5,10 +5,12 @@ use std::collections::HashMap;
 mod calculate;
 mod condition;
 mod create;
+mod print_file;
 mod print_value;
 use calculate::calculate;
 use condition::condition;
 use create::create;
+use print_file::print_file;
 use print_value::print_value;
 
 pub fn exegete(operations: Vec<OpCode>) {
@@ -37,6 +39,8 @@ pub fn exegete(operations: Vec<OpCode>) {
                     new_pointer(&mut pointer, p);
                 }
             }
+            PrintFile(key, path) => print_file(key, path, &addresses),
+            EmptyLine => {}
         }
 
         pointer += 1;

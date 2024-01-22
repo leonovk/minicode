@@ -7,6 +7,7 @@ use super::condition::condition;
 use super::file::file;
 use super::print::print;
 use super::user_var::user_var;
+use super::write::file_write;
 
 pub fn get_opcode(line: &String) -> OpCode {
     let data: Vec<&str> = line.split_whitespace().collect();
@@ -19,6 +20,7 @@ pub fn get_opcode(line: &String) -> OpCode {
         "$>" => user_var(data),
         "=" => calculation(data),
         "?" => condition(data),
+        ">>" => file_write(data),
         _ => ErrorCode("Could not recognize the command".to_string()),
     }
 }
