@@ -1,6 +1,7 @@
 # Minicode docs
 
 Minicode executes the code line by line. At the beginning of each line there is a command. There are currently 6 commands in the minicode.
+
 | command | description |
 |----------|----------|
 | >    | Assigns a value to the specified variable. Meaning, if the value can be parsed into an integer, it will do so.   |
