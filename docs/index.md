@@ -2,7 +2,7 @@
 
 [ru-docs](https://leonovk.github.io/minicode/ru)
 
-Minicode executes the code line by line. At the beginning of each line there is a command. There are currently 6 commands in the minicode.
+Minicode executes the code line by line. At the beginning of each line there is a command. There are currently 7 commands in the minicode.
 
 | command | description |
 |----------|----------|
@@ -12,6 +12,7 @@ Minicode executes the code line by line. At the beginning of each line there is 
 | $>   | Asks the user for a value, if it can be represented as an integer, it will be represented as such
 | =    | Start of an arithmetic operation
 | ?    | Start of condition
+| >>   | Write data to file
 
 All operations on one line are separated by spaces!
 
@@ -69,7 +70,7 @@ Also, as the third parameter, you can specify the text that will be shown to the
 $> a text
 ```
 
-### Arithmetic operations
+## Arithmetic operations
 
 Arithmetic operations are carried out through the command `a`
 
@@ -87,7 +88,7 @@ For example, how to subtract a number from a variable:
 
 Multiplication and division are also supported. The second argument can be variables.
 
-### Conditions and cycles
+## Conditions and cycles
 
 At the end of each condition there is a line number where the interpreter will go if the condition is true. Accordingly, if you send the interpreter back, you can implement loops, and if you send it forward, you can implement conditional branches.
 
@@ -133,3 +134,14 @@ p text
 ```
 
 You will find more examples in the folder -> test/examples
+
+## Write data to file
+
+Using the >> command, you can easily write the contents of any variable or specified string to a file. The file path always comes first. The file will not be overwritten if it already exists
+
+For example:
+
+```mc
+> a hello world
+>> test/test.txt a
+```

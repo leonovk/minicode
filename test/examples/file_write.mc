@@ -1,2 +1,2 @@
-> a hello\nworld\n;
+> a hello world
 >> test/test.txt a
