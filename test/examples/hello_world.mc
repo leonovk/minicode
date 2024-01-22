@@ -1,2 +1,2 @@
-> a "hello world"
+> a hello world
 p a
