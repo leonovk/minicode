@@ -8,7 +8,7 @@ pub fn print_file(key: &String, path: &String, storage: &HashMap<&String, ValueT
     let value = storage.get(key).unwrap_or(&binding);
 
     let printed_content = match value {
-        Line(line) => line.to_string(),
+        Line(line) => line.to_string().replace("\\n", "\n"),
         Int(int) => int.to_string(),
     };
 

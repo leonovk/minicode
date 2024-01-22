@@ -9,7 +9,7 @@ pub fn get_lines(file_path: &String) -> Vec<String> {
     let reader = io::BufReader::new(file);
 
     for line in reader.lines() {
-        result.push(line.expect("err line"))
+        result.push(line.expect("err line"));
     }
 
     result
@@ -32,6 +32,7 @@ pub fn write_content_to_file(content: &String, file_path: &String) -> Result<(),
 #[cfg(test)]
 mod tests {
     use crate::files::*;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn test_get_lines() {

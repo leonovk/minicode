@@ -1,3 +1,2 @@
-> a Дополнительная строка для файла
+> a hello\nworld\n;
 >> test/test.txt a
->> test/test.txt \n
