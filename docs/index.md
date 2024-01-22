@@ -1,6 +1,6 @@
 # Minicode docs
 
-[ru docs](https://leonovk.github.io/minicode/ru)
+[ru-docs](https://leonovk.github.io/minicode/ru)
 
 Minicode executes the code line by line. At the beginning of each line there is a command. There are currently 6 commands in the minicode.
 
