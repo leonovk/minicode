@@ -62,4 +62,14 @@ mod tests {
             ErrorCode("the operation is not specified correctly".to_string())
         );
     }
+
+    #[test]
+    fn test_appropriation_line_break() {
+        let data = vec![">", "a", "hello", "world\n"];
+        let result = appropriation(data);
+        assert_eq!(
+            result,
+            Create("a".to_string(), Line("hello world\n".to_string()))
+        );
+    }
 }

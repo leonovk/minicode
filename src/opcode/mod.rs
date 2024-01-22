@@ -16,7 +16,9 @@ pub enum OperationType {
 pub enum OpCode {
     Create(String, ValueType),
     Print(String),
+    PrintFile(String, String),
     Operation(String, OperationType, ValueType),
     Condition(String, ValueType, bool, usize),
     ErrorCode(String),
+    EmptyLine,
 }
