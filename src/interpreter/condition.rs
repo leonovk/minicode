@@ -313,4 +313,28 @@ mod tests {
         );
         assert_eq!(result, true);
     }
+
+    #[test]
+    fn test_condition_where_key_not_in_hash_three() {
+        let map: HashMap<&String, ValueType> = HashMap::new();
+        let result = condition(
+            &String::from("test_keydsa"),
+            &More,
+            &Line("test_key".to_string()),
+            &map,
+        );
+        assert_eq!(result, true);
+    }
+
+    #[test]
+    fn test_condition_where_key_not_in_hash_four() {
+        let map: HashMap<&String, ValueType> = HashMap::new();
+        let result = condition(
+            &String::from("test"),
+            &Less,
+            &Line("test_key".to_string()),
+            &map,
+        );
+        assert_eq!(result, true);
+    }
 }
