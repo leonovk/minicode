@@ -45,7 +45,7 @@ fn type_are_different(v1: &ValueType, v2: &ValueType) -> bool {
 
 #[test]
 fn test_condition_result() {
-    let c = condition_result(&Int(32), &Int(1), &Equals);
+    let c = condition_result(&Int(32.0), &Int(1.0), &Equals);
     assert_eq!(c, false);
 }
 
@@ -59,8 +59,8 @@ mod tests {
     fn test_condition_int_one() {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
-        map.insert(&binding, Int(10));
-        let result = condition(&String::from("test_key"), &Equals, &Int(10), &map);
+        map.insert(&binding, Int(10.0));
+        let result = condition(&String::from("test_key"), &Equals, &Int(10.0), &map);
         assert_eq!(result, true);
     }
 
@@ -68,8 +68,8 @@ mod tests {
     fn test_condition_int_two() {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
-        map.insert(&binding, Int(10));
-        let result = condition(&String::from("test_key"), &Equals, &Int(5), &map);
+        map.insert(&binding, Int(10.0));
+        let result = condition(&String::from("test_key"), &Equals, &Int(5.0), &map);
         assert_eq!(result, false);
     }
 
@@ -77,8 +77,8 @@ mod tests {
     fn test_condition_int_three() {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
-        map.insert(&binding, Int(10));
-        let result = condition(&String::from("test_key"), &NotEquals, &Int(10), &map);
+        map.insert(&binding, Int(10.0));
+        let result = condition(&String::from("test_key"), &NotEquals, &Int(10.0), &map);
         assert_eq!(result, false);
     }
 
@@ -86,8 +86,8 @@ mod tests {
     fn test_condition_int_four() {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
-        map.insert(&binding, Int(10));
-        let result = condition(&String::from("test_key"), &NotEquals, &Int(5), &map);
+        map.insert(&binding, Int(10.0));
+        let result = condition(&String::from("test_key"), &NotEquals, &Int(5.0), &map);
         assert_eq!(result, true);
     }
 
@@ -96,7 +96,7 @@ mod tests {
     fn test_condition_int_and_line() {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
-        map.insert(&binding, Int(10));
+        map.insert(&binding, Int(10.0));
         let result = condition(
             &String::from("test_key"),
             &Equals,
@@ -167,8 +167,8 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         let binding_2 = String::from("test_key_2");
-        map.insert(&binding, Int(10));
-        map.insert(&binding_2, Int(10));
+        map.insert(&binding, Int(10.0));
+        map.insert(&binding_2, Int(10.0));
         let result = condition(
             &String::from("test_key"),
             &Equals,
@@ -183,8 +183,8 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         let binding_2 = String::from("test_key_2");
-        map.insert(&binding, Int(10));
-        map.insert(&binding_2, Int(10));
+        map.insert(&binding, Int(10.0));
+        map.insert(&binding_2, Int(10.0));
         let result = condition(
             &String::from("test_key"),
             &NotEquals,
@@ -199,8 +199,8 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         let binding_2 = String::from("test_key_2");
-        map.insert(&binding, Int(10));
-        map.insert(&binding_2, Int(5));
+        map.insert(&binding, Int(10.0));
+        map.insert(&binding_2, Int(5.0));
         let result = condition(
             &String::from("test_key"),
             &Equals,
@@ -215,8 +215,8 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         let binding_2 = String::from("test_key_2");
-        map.insert(&binding, Int(10));
-        map.insert(&binding_2, Int(5));
+        map.insert(&binding, Int(10.0));
+        map.insert(&binding_2, Int(5.0));
         let result = condition(
             &String::from("test_key"),
             &NotEquals,

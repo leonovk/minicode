@@ -18,7 +18,7 @@ pub fn calculation(data: Vec<&str>) -> OpCode {
         _ => return ErrorCode("wrong operation".to_string()),
     };
 
-    match data[3].to_string().parse::<i64>() {
+    match data[3].to_string().parse::<f64>() {
         Ok(parsed) => Operation(value_name, op, Int(parsed)),
         Err(_e) => Operation(value_name, op, Line(data[3].to_string())),
     }

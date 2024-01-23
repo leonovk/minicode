@@ -49,15 +49,15 @@ mod tests {
         let result = parse(&input);
 
         let expect_result = vec![
-            Create("a".to_string(), Int(231)),
+            Create("a".to_string(), Int(231.0)),
             Create("b".to_string(), Line("'hello world'".to_string())),
             Print("a".to_string()),
             Print("b".to_string()),
             ErrorCode("Could not recognize the command".to_string()),
-            Operation("a".to_string(), Increment, Int(1)),
-            Operation("a".to_string(), Decrement, Int(1)),
-            Condition("a".to_string(), Int(5), NotEquals, 3),
-            Condition("a".to_string(), Int(5), Equals, 3),
+            Operation("a".to_string(), Increment, Int(1.0)),
+            Operation("a".to_string(), Decrement, Int(1.0)),
+            Condition("a".to_string(), Int(5.0), NotEquals, 3),
+            Condition("a".to_string(), Int(5.0), Equals, 3),
         ];
 
         let mut i = 0;

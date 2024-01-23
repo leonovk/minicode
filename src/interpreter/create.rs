@@ -37,7 +37,7 @@ fn multiple_values<'a>(
     match target.get(&values[0].to_string()) {
         Some(some) => match some {
             Int(_i) => None,
-            Line(str) => match values[1].to_string().parse::<i64>() {
+            Line(str) => match values[1].to_string().parse::<f64>() {
                 Ok(parsed) => Some(Line(parse_char(str, parsed))),
                 Err(_) => match target.get(&values[1].to_string()) {
                     Some(some_second) => match some_second {
@@ -52,7 +52,7 @@ fn multiple_values<'a>(
     }
 }
 
-fn parse_char(str: &String, index: i64) -> String {
+fn parse_char(str: &String, index: f64) -> String {
     if (index as usize) > (str.len() - 1) {
         return "".to_string();
     } else {
@@ -80,9 +80,9 @@ mod tests {
     fn test_basic_create_one() {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
-        create(&binding, &Int(10), &mut map);
+        create(&binding, &Int(10.0), &mut map);
         let result = map.get(&binding);
-        assert_eq!(result, Some(&Int(10)));
+        assert_eq!(result, Some(&Int(10.0)));
     }
 
     #[test]
@@ -109,15 +109,15 @@ mod tests {
         let old_key = String::from("old_key");
         let new_key = String::from("new_key");
 
-        map.insert(&old_key, Int(10));
+        map.insert(&old_key, Int(10.0));
 
         create(&new_key, &Line("old_key".to_string()), &mut map);
 
         let result_1 = map.get(&old_key);
         let result_2 = map.get(&new_key);
 
-        assert_eq!(result_1, Some(&Int(10)));
-        assert_eq!(result_2, Some(&Int(10)));
+        assert_eq!(result_1, Some(&Int(10.0)));
+        assert_eq!(result_2, Some(&Int(10.0)));
     }
 
     #[test]
@@ -155,6 +155,40 @@ mod tests {
     }
 
     #[test]
+    fn test_not_basic_create_float() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let old_key = String::from("old_key");
+        let new_key = String::from("new_key");
+
+        map.insert(&old_key, Line("line".to_string()));
+
+        create(&new_key, &Line("old_key 1.43".to_string()), &mut map);
+
+        let result_1 = map.get(&old_key);
+        let result_2 = map.get(&new_key);
+
+        assert_eq!(result_1, Some(&Line("line".to_string())));
+        assert_eq!(result_2, Some(&Line("i".to_string())));
+    }
+
+    #[test]
+    fn test_not_basic_create_float_two() {
+        let mut map: HashMap<&String, ValueType> = HashMap::new();
+        let old_key = String::from("old_key");
+        let new_key = String::from("new_key");
+
+        map.insert(&old_key, Line("line".to_string()));
+
+        create(&new_key, &Line("old_key 1.93".to_string()), &mut map);
+
+        let result_1 = map.get(&old_key);
+        let result_2 = map.get(&new_key);
+
+        assert_eq!(result_1, Some(&Line("line".to_string())));
+        assert_eq!(result_2, Some(&Line("i".to_string())));
+    }
+
+    #[test]
     fn test_not_basic_create_four() {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let old_key = String::from("old_key");
@@ -162,7 +196,7 @@ mod tests {
         let new_key = String::from("new_key");
 
         map.insert(&old_key, Line("line".to_string()));
-        map.insert(&old_key_2, Int(1));
+        map.insert(&old_key_2, Int(1.0));
 
         create(&new_key, &Line("old_key old_key_2".to_string()), &mut map);
 
@@ -179,14 +213,14 @@ mod tests {
         let old_key = String::from("old_key");
         let new_key = String::from("new_key");
 
-        map.insert(&old_key, Int(1));
+        map.insert(&old_key, Int(1.0));
 
         create(&new_key, &Line("old_key 2".to_string()), &mut map);
 
         let result_1 = map.get(&old_key);
         let result_2 = map.get(&new_key);
 
-        assert_eq!(result_1, Some(&Int(1)));
+        assert_eq!(result_1, Some(&Int(1.0)));
         assert_eq!(result_2, Some(&Line("old_key 2".to_string())));
     }
 
@@ -198,7 +232,7 @@ mod tests {
         let new_key = String::from("new_key");
 
         map.insert(&old_key, Line("line".to_string()));
-        map.insert(&old_key_2, Int(10));
+        map.insert(&old_key_2, Int(10.0));
 
         create(&new_key, &Line("old_key old_key_2".to_string()), &mut map);
 

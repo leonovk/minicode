@@ -32,7 +32,7 @@ pub fn calculate<'a>(
     );
 }
 
-fn calculate_new_value(old_value: &i64, oper_value: &i64, o_type: &OperationType) -> ValueType {
+fn calculate_new_value(old_value: &f64, oper_value: &f64, o_type: &OperationType) -> ValueType {
     let new_value = match o_type {
         Increment => old_value + oper_value,
         Decrement => old_value - oper_value,
@@ -46,15 +46,16 @@ fn calculate_new_value(old_value: &i64, oper_value: &i64, o_type: &OperationType
 #[cfg(test)]
 mod tests {
     use super::*;
+    use pretty_assertions::assert_eq;
     use std::collections::HashMap;
 
     #[test]
     fn test_calculate_increment_one() {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
-        map.insert(&binding, Int(10));
-        calculate(&binding, &OperationType::Increment, &Int(5), &mut map);
-        assert_eq!(map.get(&String::from("test_key")), Some(&Int(15)));
+        map.insert(&binding, Int(10.0));
+        calculate(&binding, &OperationType::Increment, &Int(5.0), &mut map);
+        assert_eq!(map.get(&String::from("test_key")), Some(&Int(15.0)));
     }
 
     #[test]
@@ -62,24 +63,24 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         let binding_2 = String::from("test_key_2");
-        map.insert(&binding, Int(10));
-        map.insert(&binding_2, Int(5));
+        map.insert(&binding, Int(10.0));
+        map.insert(&binding_2, Int(5.0));
         calculate(
             &binding,
             &OperationType::Increment,
             &Line("test_key_2".to_string()),
             &mut map,
         );
-        assert_eq!(map.get(&String::from("test_key")), Some(&Int(15)));
+        assert_eq!(map.get(&String::from("test_key")), Some(&Int(15.0)));
     }
 
     #[test]
     fn test_calculate_decrement_one() {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
-        map.insert(&binding, Int(10));
-        calculate(&binding, &OperationType::Decrement, &Int(3), &mut map);
-        assert_eq!(map.get(&String::from("test_key")), Some(&Int(7)));
+        map.insert(&binding, Int(10.0));
+        calculate(&binding, &OperationType::Decrement, &Int(3.0), &mut map);
+        assert_eq!(map.get(&String::from("test_key")), Some(&Int(7.0)));
     }
 
     #[test]
@@ -87,24 +88,29 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         let binding_2 = String::from("test_key_2");
-        map.insert(&binding, Int(10));
-        map.insert(&binding_2, Int(5));
+        map.insert(&binding, Int(10.0));
+        map.insert(&binding_2, Int(5.0));
         calculate(
             &binding,
             &OperationType::Decrement,
             &Line("test_key_2".to_string()),
             &mut map,
         );
-        assert_eq!(map.get(&String::from("test_key")), Some(&Int(5)));
+        assert_eq!(map.get(&String::from("test_key")), Some(&Int(5.0)));
     }
 
     #[test]
     fn test_calculate_multy_one() {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
-        map.insert(&binding, Int(10));
-        calculate(&binding, &OperationType::Multiplication, &Int(3), &mut map);
-        assert_eq!(map.get(&String::from("test_key")), Some(&Int(30)));
+        map.insert(&binding, Int(10.0));
+        calculate(
+            &binding,
+            &OperationType::Multiplication,
+            &Int(3.0),
+            &mut map,
+        );
+        assert_eq!(map.get(&String::from("test_key")), Some(&Int(30.0)));
     }
 
     #[test]
@@ -112,24 +118,27 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         let binding_2 = String::from("test_key_2");
-        map.insert(&binding, Int(10));
-        map.insert(&binding_2, Int(5));
+        map.insert(&binding, Int(10.0));
+        map.insert(&binding_2, Int(5.0));
         calculate(
             &binding,
             &OperationType::Multiplication,
             &Line("test_key_2".to_string()),
             &mut map,
         );
-        assert_eq!(map.get(&String::from("test_key")), Some(&Int(50)));
+        assert_eq!(map.get(&String::from("test_key")), Some(&Int(50.0)));
     }
 
     #[test]
     fn test_calculate_divi_one() {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
-        map.insert(&binding, Int(10));
-        calculate(&binding, &OperationType::Division, &Int(3), &mut map);
-        assert_eq!(map.get(&String::from("test_key")), Some(&Int(3)));
+        map.insert(&binding, Int(10.0));
+        calculate(&binding, &OperationType::Division, &Int(3.0), &mut map);
+        assert_eq!(
+            map.get(&String::from("test_key")),
+            Some(&Int(3.3333333333333335))
+        );
     }
 
     #[test]
@@ -137,14 +146,14 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         let binding_2 = String::from("test_key_2");
-        map.insert(&binding, Int(10));
-        map.insert(&binding_2, Int(5));
+        map.insert(&binding, Int(10.0));
+        map.insert(&binding_2, Int(5.0));
         calculate(
             &binding,
             &OperationType::Division,
             &Line("test_key_2".to_string()),
             &mut map,
         );
-        assert_eq!(map.get(&String::from("test_key")), Some(&Int(2)));
+        assert_eq!(map.get(&String::from("test_key")), Some(&Int(2.0)));
     }
 }
