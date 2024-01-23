@@ -1,6 +1,7 @@
 mod appropriation;
 mod calculation;
 mod condition;
+mod exec;
 mod file;
 mod opcode_parser;
 mod print;
