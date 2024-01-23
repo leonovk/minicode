@@ -27,6 +27,7 @@ pub fn get_opcode(line: &String) -> OpCode {
 
 #[cfg(test)]
 mod tests {
+    use crate::opcode::ComparisonOperators::*;
     use crate::opcode::OperationType::*;
     pub use crate::opcode::ValueType::*;
     use crate::parser::opcode_parser::*;
@@ -71,7 +72,7 @@ mod tests {
 
         assert_eq!(
             get_opcode(&ex1),
-            Condition("a".to_string(), Int(1), true, 6)
+            Condition("a".to_string(), Int(1), Equals, 6)
         );
     }
 }

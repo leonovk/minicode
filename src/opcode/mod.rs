@@ -1,4 +1,4 @@
-#[derive(PartialEq, Debug, Clone)]
+#[derive(PartialEq, Debug, Clone, PartialOrd)]
 pub enum ValueType {
     Int(i64),
     Line(String),
@@ -13,12 +13,20 @@ pub enum OperationType {
 }
 
 #[derive(PartialEq, Debug)]
+pub enum ComparisonOperators {
+    Equals,
+    NotEquals,
+    More,
+    Less,
+}
+
+#[derive(PartialEq, Debug)]
 pub enum OpCode {
     Create(String, ValueType),
     Print(String),
     PrintFile(String, String),
     Operation(String, OperationType, ValueType),
-    Condition(String, ValueType, bool, usize),
+    Condition(String, ValueType, ComparisonOperators, usize),
     ErrorCode(String),
     EmptyLine,
 }
