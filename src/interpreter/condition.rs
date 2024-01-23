@@ -6,7 +6,7 @@ use std::collections::HashMap;
 
 pub fn condition(
     key: &String,
-    true_or_false: &ComparisonOperators,
+    operator: &ComparisonOperators,
     target_value: &ValueType,
     storage: &HashMap<&String, ValueType>,
 ) -> bool {
@@ -14,10 +14,10 @@ pub fn condition(
     let first_value = storage.get(key).unwrap_or(&key_string);
 
     match target_value {
-        Int(int) => condition_result(first_value, &Int(*int), true_or_false),
+        Int(int) => condition_result(first_value, &Int(*int), operator),
         Line(str) => match storage.get(str) {
-            Some(some) => condition_result(first_value, some, true_or_false),
-            None => condition_result(first_value, &Line(str.to_string()), true_or_false),
+            Some(some) => condition_result(first_value, some, operator),
+            None => condition_result(first_value, &Line(str.to_string()), operator),
         },
     }
 }
@@ -25,13 +25,13 @@ pub fn condition(
 fn condition_result(
     first: &ValueType,
     second: &ValueType,
-    true_or_false: &ComparisonOperators,
+    operator: &ComparisonOperators,
 ) -> bool {
     if type_are_different(first, second) {
         panic!("You cannot compare values of different types!");
     }
 
-    match true_or_false {
+    match operator {
         Equals => first == second,
         NotEquals => first != second,
         More => first > second,
