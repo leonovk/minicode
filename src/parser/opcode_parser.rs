@@ -36,7 +36,7 @@ mod tests {
     fn test_get_opcode_create() {
         let ex1 = "> a 32".to_string();
 
-        assert_eq!(get_opcode(&ex1), Create("a".to_string(), Int(32)));
+        assert_eq!(get_opcode(&ex1), Create("a".to_string(), Int(32.0)));
     }
 
     #[test]
@@ -62,7 +62,7 @@ mod tests {
 
         assert_eq!(
             get_opcode(&ex1),
-            Operation("a".to_string(), Increment, Int(1))
+            Operation("a".to_string(), Increment, Int(1.0))
         );
     }
 
@@ -72,7 +72,7 @@ mod tests {
 
         assert_eq!(
             get_opcode(&ex1),
-            Condition("a".to_string(), Int(1), Equals, 6)
+            Condition("a".to_string(), Int(1.0), Equals, 6)
         );
     }
 }

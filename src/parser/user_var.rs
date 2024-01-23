@@ -9,7 +9,7 @@ pub fn user_var(data: Vec<&str>) -> OpCode {
     let output = data.into_iter().skip(2).collect::<Vec<&str>>().join(" ");
     println!("{}", output);
     io::stdin().read_line(&mut input).expect("cant read");
-    match input.trim().parse::<i64>() {
+    match input.trim().parse::<f64>() {
         Ok(parsed) => Create(value_name, Int(parsed)),
         Err(_e) => Create(value_name, Line(input)),
     }

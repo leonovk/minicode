@@ -1,6 +1,6 @@
 #[derive(PartialEq, Debug, Clone, PartialOrd)]
 pub enum ValueType {
-    Int(i64),
+    Int(f64),
     Line(String),
 }
 

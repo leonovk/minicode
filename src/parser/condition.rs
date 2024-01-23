@@ -23,7 +23,7 @@ pub fn condition(data: Vec<&str>) -> OpCode {
         Err(_) => return ErrorCode("wrong target pointer".to_string()),
     };
 
-    let target_value = match data[3].parse::<i64>() {
+    let target_value = match data[3].parse::<f64>() {
         Ok(parsed) => Int(parsed),
         Err(_) => Line(data[3].to_string()),
     };
@@ -43,14 +43,21 @@ mod tests {
     fn test_condition_success_one() {
         let input = vec!["?", "a", "!", "3", "5"];
         let result = condition(input);
-        assert_eq!(result, Condition("a".to_string(), Int(3), NotEquals, 5));
+        assert_eq!(result, Condition("a".to_string(), Int(3.0), NotEquals, 5));
     }
 
     #[test]
     fn test_condition_success_two() {
         let input = vec!["?", "a", "=", "3", "5"];
         let result = condition(input);
-        assert_eq!(result, Condition("a".to_string(), Int(3), Equals, 5));
+        assert_eq!(result, Condition("a".to_string(), Int(3.0), Equals, 5));
+    }
+
+    #[test]
+    fn test_condition_success_two_float() {
+        let input = vec!["?", "a", "=", "3.54", "5"];
+        let result = condition(input);
+        assert_eq!(result, Condition("a".to_string(), Int(3.54), Equals, 5));
     }
 
     #[test]
