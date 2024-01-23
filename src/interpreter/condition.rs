@@ -1,10 +1,12 @@
+use crate::opcode::ComparisonOperators;
+use crate::opcode::ComparisonOperators::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
 
 pub fn condition(
     key: &String,
-    true_or_false: &bool,
+    operator: &ComparisonOperators,
     target_value: &ValueType,
     storage: &HashMap<&String, ValueType>,
 ) -> bool {
@@ -12,23 +14,24 @@ pub fn condition(
     let first_value = storage.get(key).unwrap_or(&key_string);
 
     match target_value {
-        Int(int) => condition_result(first_value, &Int(*int), true_or_false),
+        Int(int) => condition_result(first_value, &Int(*int), operator),
         Line(str) => match storage.get(str) {
-            Some(some) => condition_result(first_value, some, true_or_false),
-            None => condition_result(first_value, &Line(str.to_string()), true_or_false),
+            Some(some) => condition_result(first_value, some, operator),
+            None => condition_result(first_value, &Line(str.to_string()), operator),
         },
     }
 }
 
-fn condition_result(first: &ValueType, second: &ValueType, true_or_false: &bool) -> bool {
+fn condition_result(first: &ValueType, second: &ValueType, operator: &ComparisonOperators) -> bool {
     if type_are_different(first, second) {
         panic!("You cannot compare values of different types!");
     }
 
-    if *true_or_false {
-        return first == second;
-    } else {
-        return first != second;
+    match operator {
+        Equals => first == second,
+        NotEquals => first != second,
+        More => first > second,
+        Less => first < second,
     }
 }
 
@@ -42,7 +45,7 @@ fn type_are_different(v1: &ValueType, v2: &ValueType) -> bool {
 
 #[test]
 fn test_condition_result() {
-    let c = condition_result(&Int(32), &Int(1), &true);
+    let c = condition_result(&Int(32), &Int(1), &Equals);
     assert_eq!(c, false);
 }
 
@@ -57,7 +60,7 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         map.insert(&binding, Int(10));
-        let result = condition(&String::from("test_key"), &true, &Int(10), &map);
+        let result = condition(&String::from("test_key"), &Equals, &Int(10), &map);
         assert_eq!(result, true);
     }
 
@@ -66,7 +69,7 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         map.insert(&binding, Int(10));
-        let result = condition(&String::from("test_key"), &true, &Int(5), &map);
+        let result = condition(&String::from("test_key"), &Equals, &Int(5), &map);
         assert_eq!(result, false);
     }
 
@@ -75,7 +78,7 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         map.insert(&binding, Int(10));
-        let result = condition(&String::from("test_key"), &false, &Int(10), &map);
+        let result = condition(&String::from("test_key"), &NotEquals, &Int(10), &map);
         assert_eq!(result, false);
     }
 
@@ -84,7 +87,7 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         map.insert(&binding, Int(10));
-        let result = condition(&String::from("test_key"), &false, &Int(5), &map);
+        let result = condition(&String::from("test_key"), &NotEquals, &Int(5), &map);
         assert_eq!(result, true);
     }
 
@@ -96,7 +99,7 @@ mod tests {
         map.insert(&binding, Int(10));
         let result = condition(
             &String::from("test_key"),
-            &true,
+            &Equals,
             &Line("5".to_string()),
             &map,
         );
@@ -110,7 +113,7 @@ mod tests {
         map.insert(&binding, Line("10".to_string()));
         let result = condition(
             &String::from("test_key"),
-            &true,
+            &Equals,
             &Line("10".to_string()),
             &map,
         );
@@ -124,7 +127,7 @@ mod tests {
         map.insert(&binding, Line("10".to_string()));
         let result = condition(
             &String::from("test_key"),
-            &true,
+            &Equals,
             &Line("5".to_string()),
             &map,
         );
@@ -138,7 +141,7 @@ mod tests {
         map.insert(&binding, Line("10".to_string()));
         let result = condition(
             &String::from("test_key"),
-            &false,
+            &NotEquals,
             &Line("10".to_string()),
             &map,
         );
@@ -152,7 +155,7 @@ mod tests {
         map.insert(&binding, Line("10".to_string()));
         let result = condition(
             &String::from("test_key"),
-            &false,
+            &NotEquals,
             &Line("5".to_string()),
             &map,
         );
@@ -168,7 +171,7 @@ mod tests {
         map.insert(&binding_2, Int(10));
         let result = condition(
             &String::from("test_key"),
-            &true,
+            &Equals,
             &Line("test_key_2".to_string()),
             &map,
         );
@@ -184,7 +187,7 @@ mod tests {
         map.insert(&binding_2, Int(10));
         let result = condition(
             &String::from("test_key"),
-            &false,
+            &NotEquals,
             &Line("test_key_2".to_string()),
             &map,
         );
@@ -200,7 +203,7 @@ mod tests {
         map.insert(&binding_2, Int(5));
         let result = condition(
             &String::from("test_key"),
-            &true,
+            &Equals,
             &Line("test_key_2".to_string()),
             &map,
         );
@@ -216,7 +219,7 @@ mod tests {
         map.insert(&binding_2, Int(5));
         let result = condition(
             &String::from("test_key"),
-            &false,
+            &NotEquals,
             &Line("test_key_2".to_string()),
             &map,
         );
@@ -232,7 +235,7 @@ mod tests {
         map.insert(&binding_2, Line("10".to_string()));
         let result = condition(
             &String::from("test_key"),
-            &true,
+            &Equals,
             &Line("test_key_2".to_string()),
             &map,
         );
@@ -248,7 +251,7 @@ mod tests {
         map.insert(&binding_2, Line("10".to_string()));
         let result = condition(
             &String::from("test_key"),
-            &false,
+            &NotEquals,
             &Line("test_key_2".to_string()),
             &map,
         );
@@ -264,7 +267,7 @@ mod tests {
         map.insert(&binding_2, Line("1dsa".to_string()));
         let result = condition(
             &String::from("test_key"),
-            &false,
+            &NotEquals,
             &Line("test_key_2".to_string()),
             &map,
         );
@@ -280,7 +283,7 @@ mod tests {
         map.insert(&binding_2, Line("1dsa".to_string()));
         let result = condition(
             &String::from("test_key"),
-            &true,
+            &Equals,
             &Line("test_key_2".to_string()),
             &map,
         );
@@ -292,7 +295,7 @@ mod tests {
         let map: HashMap<&String, ValueType> = HashMap::new();
         let result = condition(
             &String::from("test_key"),
-            &true,
+            &Equals,
             &Line("test_key_2".to_string()),
             &map,
         );
@@ -304,7 +307,31 @@ mod tests {
         let map: HashMap<&String, ValueType> = HashMap::new();
         let result = condition(
             &String::from("test_key"),
-            &true,
+            &Equals,
+            &Line("test_key".to_string()),
+            &map,
+        );
+        assert_eq!(result, true);
+    }
+
+    #[test]
+    fn test_condition_where_key_not_in_hash_three() {
+        let map: HashMap<&String, ValueType> = HashMap::new();
+        let result = condition(
+            &String::from("test_keydsa"),
+            &More,
+            &Line("test_key".to_string()),
+            &map,
+        );
+        assert_eq!(result, true);
+    }
+
+    #[test]
+    fn test_condition_where_key_not_in_hash_four() {
+        let map: HashMap<&String, ValueType> = HashMap::new();
+        let result = condition(
+            &String::from("test"),
+            &Less,
             &Line("test_key".to_string()),
             &map,
         );

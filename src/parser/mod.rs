@@ -26,6 +26,7 @@ pub fn parse(lines: &Vec<String>) -> Vec<OpCode> {
 
 #[cfg(test)]
 mod tests {
+    use crate::opcode::ComparisonOperators::*;
     use crate::opcode::OpCode::*;
     use crate::opcode::OperationType::*;
     use crate::opcode::ValueType::*;
@@ -55,8 +56,8 @@ mod tests {
             ErrorCode("Could not recognize the command".to_string()),
             Operation("a".to_string(), Increment, Int(1)),
             Operation("a".to_string(), Decrement, Int(1)),
-            Condition("a".to_string(), Int(5), false, 3),
-            Condition("a".to_string(), Int(5), true, 3),
+            Condition("a".to_string(), Int(5), NotEquals, 3),
+            Condition("a".to_string(), Int(5), Equals, 3),
         ];
 
         let mut i = 0;

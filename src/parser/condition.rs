@@ -1,3 +1,4 @@
+use crate::opcode::ComparisonOperators::*;
 use crate::opcode::OpCode;
 use crate::opcode::OpCode::*;
 use crate::opcode::ValueType::*;
@@ -10,8 +11,10 @@ pub fn condition(data: Vec<&str>) -> OpCode {
     let value_name = data[1].to_string();
 
     let true_or_false = match data[2] {
-        "=" => true,
-        "!" => false,
+        "=" => Equals,
+        "!" => NotEquals,
+        ">" => More,
+        "<" => Less,
         _ => return ErrorCode("wrong condition".to_string()),
     };
 
@@ -31,6 +34,7 @@ pub fn condition(data: Vec<&str>) -> OpCode {
 #[cfg(test)]
 mod tests {
     use super::condition;
+    use crate::opcode::ComparisonOperators::*;
     use crate::opcode::OpCode::*;
     use crate::opcode::ValueType::*;
     use pretty_assertions::assert_eq;
@@ -39,14 +43,14 @@ mod tests {
     fn test_condition_success_one() {
         let input = vec!["?", "a", "!", "3", "5"];
         let result = condition(input);
-        assert_eq!(result, Condition("a".to_string(), Int(3), false, 5));
+        assert_eq!(result, Condition("a".to_string(), Int(3), NotEquals, 5));
     }
 
     #[test]
     fn test_condition_success_two() {
         let input = vec!["?", "a", "=", "3", "5"];
         let result = condition(input);
-        assert_eq!(result, Condition("a".to_string(), Int(3), true, 5));
+        assert_eq!(result, Condition("a".to_string(), Int(3), Equals, 5));
     }
 
     #[test]
@@ -55,7 +59,7 @@ mod tests {
         let result = condition(input);
         assert_eq!(
             result,
-            Condition("a".to_string(), Line("3d".to_string()), true, 5)
+            Condition("a".to_string(), Line("3d".to_string()), Equals, 5)
         );
     }
 
@@ -65,7 +69,7 @@ mod tests {
         let result = condition(input);
         assert_eq!(
             result,
-            Condition("a".to_string(), Line("3d".to_string()), false, 5)
+            Condition("a".to_string(), Line("3d".to_string()), NotEquals, 5)
         );
     }
 
