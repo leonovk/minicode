@@ -10,6 +10,6 @@ pub fn print_value(key: &String, storage: &HashMap<&String, ValueType>) {
             Int(i) => println!("{}", i),
             Line(s) => println!("{}", s),
         },
-        None => panic!("not value for print"),
+        None => println!("{}", key),
     };
 }
