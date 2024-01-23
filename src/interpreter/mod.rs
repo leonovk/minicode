@@ -54,3 +54,14 @@ fn new_pointer(pointer: &mut usize, new: &usize) {
         *pointer = 0;
     }
 }
+
+#[test]
+fn test_new_pointer() {
+    let mut pointer: usize = 1;
+    new_pointer(&mut pointer, &1);
+    assert_eq!(pointer, 0);
+
+    let mut pointer: usize = 1;
+    new_pointer(&mut pointer, &3);
+    assert_eq!(pointer, 1);
+}
