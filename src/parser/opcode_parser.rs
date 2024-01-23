@@ -4,6 +4,7 @@ pub use crate::opcode::OpCode::*;
 use super::appropriation::appropriation;
 use super::calculation::calculation;
 use super::condition::condition;
+use super::exec::exec;
 use super::file::file;
 use super::print::print;
 use super::user_var::user_var;
@@ -21,6 +22,7 @@ pub fn get_opcode(line: &String) -> OpCode {
         "=" => calculation(data),
         "?" => condition(data),
         ">>" => file_write(data),
+        "&" => exec(data),
         _ => ErrorCode("Could not recognize the command".to_string()),
     }
 }
