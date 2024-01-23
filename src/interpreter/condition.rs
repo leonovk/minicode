@@ -22,11 +22,7 @@ pub fn condition(
     }
 }
 
-fn condition_result(
-    first: &ValueType,
-    second: &ValueType,
-    operator: &ComparisonOperators,
-) -> bool {
+fn condition_result(first: &ValueType, second: &ValueType, operator: &ComparisonOperators) -> bool {
     if type_are_different(first, second) {
         panic!("You cannot compare values of different types!");
     }
