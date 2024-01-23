@@ -1,3 +1,4 @@
+$> max
 > i 0
 > first 0
 > second 1
@@ -9,4 +10,4 @@ p second
 = first + second
 = second + sum
 = i + 1
-? i ! 10 4
+? i ! max 5

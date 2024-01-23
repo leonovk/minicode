@@ -1,38 +1,72 @@
 # Minicode docs
 
-[ru-docs](https://leonovk.github.io/minicode/ru)
+[Документация на русском тут!](https://leonovk.github.io/minicode/ru)
 
-Minicode executes the code line by line. At the beginning of each line there is a command. There are currently 7 commands in the minicode.
+Minicode executes the code line by line, first compiling it into a certain set of commands. Which makes it a classic interpreted programming language. Each line of code in minicode begins with a command, followed by an expression.
+
+At the moment, the minicode has 8 commands and 2 data types, integers and strings.
+Integers behave exactly the same as in Lua. If you don't use decimal characters they will be integers, otherwise not integers. In any case, both will be stored in memory as non-integers.
+
+Minicode is a Turing complete language and in theory allows you to implement any function.
 
 | command | description |
 |----------|----------|
 | >    | Assigns a value to the specified variable. Meaning, if the value can be parsed into an integer, it will do so.   |
 | p    | Displays the value from the specified variable   |
 | f    | Tries to find a file at the specified path, and puts all its contents into the specified variable  |
-| $>   | Asks the user for a value, if it can be represented as an integer, it will be represented as such
-| =    | Start of an arithmetic operation
-| ?    | Start of condition
-| >>   | Write data to file
+| $>   | Asks the user for a value, if it can be represented as an integer, it will be represented as such |
+| =    | Start of an arithmetic operation |
+| ?    | Start of condition |
+| >>   | Write data to file |
+| &    | Run operating system command |
 
-All operations on one line are separated by spaces!
+Each line begins with one of these commands and is separated from the expressions by a space.
 
 ## Assigning Variables
 
-The assignment operation always has the name of the variable and the value that needs to be put into it.
+The variable creation operation symbol is always followed by its name. There is no need to declare the variable type when creating it. The minicode itself will indicate the type. Also, if you do not pass any value, the value of the variable will be equal to the empty string - "".
 
-For example, how to put the number 431 in variable a:
-
-```mc
-> a 434
-```
-
-For example, how to put the string hello world in a variable:
+Here variable a will contain an empty string.
 
 ```mc
-> a Hello World!
+> a
 ```
 
-You can use quotes or not, if the string cannot be represented as an integer, it will remain a string.
+Here the variable a will contain the number 324.
+
+```mc
+> a 324
+```
+
+Here the variable a will contain the string - "hello world"
+
+```mc
+> a hello world
+```
+
+Note that you do not need to use double quotes to denote strings. The minicode itself will understand the string you meant or another variable.
+
+If you pass a string as the second argument, the minicode will try to find a previously designated variable with that name, and if it finds one, it will copy its value to the new variable.
+
+Here the variable b will contain the number 324.
+
+```mc
+> a 324
+> b a
+```
+
+You can also pass many values at once and depending on the previously created variables there will be one or another result.
+
+For example, if we want to copy not the entire string into a new variable, but only a specific character from a specific string in another variable, we can do this:
+
+Here the variable b will contain the string - "e"
+
+```mc
+> a hello
+> b a 1
+```
+
+In such cases, the value of other variables can also act as an index. If nothing is found at the address of the variable 'a', then a new line will simply be created - "a 1".
 
 ## Console output
 
@@ -56,7 +90,7 @@ f a test/test_file.txt
 
 ## Request value from user
 
-You can request the value from the user using the command `$>`
+Using the `$>` command you can request values from users. The value will also be moved to the variable according to its type. The minicode will determine the type independently. It is worth noting that all values requested from users in this way will be requested before the code is executed. The code will then be executed as usual, where the query command will be converted into a command to create a regular variable, with the value specified by the users.
 
 For example:
 
@@ -72,27 +106,56 @@ $> a text
 
 ## Arithmetic operations
 
-Arithmetic operations are carried out through the command `a`
+Arithmetic operations begin with the command `=`, then there is always a variable that will be changed in the course of the further operation. The original variable will definitely be changed.
 
-For example, how to add a number to a variable:
+For example, this way you can increase the value of the variable 'a' by 12
 
 ```mc
 = a + 12
 ```
 
-For example, how to subtract a number from a variable:
+You can also chain variables together.
+
+As a result of this operation, the variable 'a' will be increased by the value of the variable 'b'
 
 ```mc
-= a - 12
+= a + b
 ```
 
-Multiplication and division are also supported. The second argument can be variables.
+The same thing works with subtraction, multiplication and division.
+
+An example of a program that displays the word 'hello' line by line:
+
+```mc
+> empty_line
+> a hello
+> i 0
+> char a i
+p char
+= i + 1
+? char ! empty_line 4
+```
+
+If you need to find the sum of two numbers, you can do this:
+
+```mc
+> int1 23
+> int2 32
+> sum 0
+> sum + int1
+> sum + int2
+```
+
+Similarly, you can calculate the difference, etc.
 
 ## Conditions and cycles
 
-At the end of each condition there is a line number where the interpreter will go if the condition is true. Accordingly, if you send the interpreter back, you can implement loops, and if you send it forward, you can implement conditional branches.
+Conditions and loops are implemented by moving the interpreter to the desired line. Accordingly, if you move the interpreter backwards, you can create a loop; if forward, you can create a conditional branch.
+In any case, both begin with a condition command.
 
-For example, if a equals 0, move the interpreter to the fifth line:
+The condition command takes an expression that should return true and the line number that the interpreter will jump to if the condition is true.
+
+This operation moves the interpreter to line 5 if the value in the variable 'a' is zero.
 
 ```mc
 ? a = 0 5
@@ -114,7 +177,7 @@ p b
 ? a ! 5 3
 ```
 
-The conditions in minicode are quite powerful for typical languages of this class. You can compare and compare all data types with each other (although there are only two of them), but only in accordance with the type. You cannot compare a number with a string. You can also compare values that are in a variable. However, when specifying a variable, keep in mind that the minicode will first try to parse the value into a number, then if that doesn’t work, it will look to see if there is a variable with that name in memory, and if not, it will consider what you specified as a regular string.
+You can also compare variables with each other. The only condition is that the variables must be of the same type.
 
 For example, the following code will display only `just text` on the screen
 
@@ -133,6 +196,8 @@ p d
 p text
 ```
 
+The greater than or less than operators '>', '<' are also supported
+
 You will find more examples in the folder -> test/examples
 
 ## Write data to file
@@ -144,4 +209,36 @@ For example:
 ```mc
 > a hello world
 >> test/test.txt a
+```
+
+## Run OS command
+
+Using the '&' command you can easily execute any command on your operating system. The execution result will be stored in a variable. In this case, there is no need to create the variable in advance. The minicode itself will create it if it does not exist, or replace its contents if it does exist.
+
+For example, this is how you can write the current version of your minicode into a variable:
+
+```mc
+& a minicode --version
+```
+
+## Some examples
+
+### Fibonacci sequence
+
+The code asks the user for the maximum number to which the sequence needs to be built
+
+```mc
+$> max
+> i 0
+> first 0
+> second 1
+p first
+p second
+> sum 0
+= sum + first
+= sum + second
+= first + second
+= second + sum
+= i + 1
+? i ! max 5
 ```
