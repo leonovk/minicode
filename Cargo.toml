@@ -1,7 +1,9 @@
 [package]
 name = "minicode"
 version = "1.3.2"
+authors = ["Kirill Leonov <leonov7632@gmail.com>"]
 edition = "2021"
+repository = "https://github.com/leonovk/minicode"
 
 [dependencies]
 clap = { version = "4.4.13", features = ["derive"] }
