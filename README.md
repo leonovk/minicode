@@ -36,6 +36,29 @@ minicode --update
 
 This command will automatically download the latest release and install it
 
+## How to run minicode in docker
+
+To run your minicode code in docker you need to do the following:
+
+```bash
+git clone https://github.com/leonovk/minicode.git
+docker build -t minicode ./minicode
+```
+
+After this, the minicode image will be available on your local machine.
+
+Next, you can create your own images based on the minicode image and run your minicode in them.
+
+For example:
+
+```Dockerfile
+FROM minicode:latest
+
+COPY . .
+
+CMD ["minicode", "-p", "hello_world.mc"]
+```
+
 ## Contributing
 
 Contributions to Minicode are welcome! If you have a feature request or find a bug, please create an issue on the GitHub repository. Pull requests are also welcome.
