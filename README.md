@@ -1,6 +1,6 @@
-# Minicode
+# 👹 Minicode
 
-## 👹 Esoteric programming language
+## Esoteric programming language
 
 [Documentation here](https://leonovk.github.io/minicode/)
 
