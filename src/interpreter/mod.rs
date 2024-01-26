@@ -1,6 +1,7 @@
 use crate::opcode::OpCode;
 use crate::opcode::OpCode::*;
 use crate::opcode::ValueType;
+use crate::opcode::ValueType::*;
 use std::collections::HashMap;
 mod calculate;
 mod condition;
@@ -16,7 +17,7 @@ use execute::execute;
 use print_file::print_file;
 use print_value::print_value;
 
-pub fn exegete(operations: Vec<OpCode>) {
+pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
     if operations.is_empty() {
         return;
     }
@@ -24,6 +25,11 @@ pub fn exegete(operations: Vec<OpCode>) {
     let code_max_point = operations.len() - 1;
     let mut pointer: usize = 0;
     let mut addresses: HashMap<&String, ValueType> = HashMap::new();
+    let c_args = parse_command_line_arguments(args);
+
+    for (key, value) in &c_args {
+        addresses.insert(key, value.clone());
+    }
 
     while pointer <= code_max_point {
         let operation = &operations[pointer];
@@ -44,12 +50,29 @@ pub fn exegete(operations: Vec<OpCode>) {
             }
             PrintFile(key, path) => print_file(key, path, &addresses),
             Execute(k, c, arg) => execute(k, c, arg, &mut addresses),
-            Include(p) => run(p.to_string()),
+            Include(p) => run(p.to_string(), vec![]),
             EmptyLine => {}
         }
 
         pointer += 1;
     }
+}
+
+fn parse_command_line_arguments(args: Vec<String>) -> HashMap<String, ValueType> {
+    let mut addresses: HashMap<String, ValueType> = HashMap::new();
+    let mut i = 1;
+
+    for arg in args {
+        let arg_name = "ARG_".to_string() + &i.to_string();
+        let arg_value = match arg.parse::<f64>() {
+            Ok(f) => Int(f),
+            Err(_) => Line(arg),
+        };
+        addresses.insert(arg_name, arg_value);
+        i += 1;
+    }
+
+    addresses
 }
 
 fn new_pointer(pointer: &mut usize, new: &usize) {
