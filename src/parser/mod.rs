@@ -3,6 +3,7 @@ mod calculation;
 mod condition;
 mod exec;
 mod file;
+mod include;
 mod opcode_parser;
 mod print;
 mod user_var;
