@@ -4,7 +4,7 @@
 
 Minicode executes the code line by line, first compiling it into a certain set of commands. Which makes it a classic interpreted programming language. Each line of code in minicode begins with a command, followed by an expression.
 
-At the moment, the minicode has 8 commands and 2 data types, integers and strings.
+At the moment, the minicode has 9 commands and 2 data types, integers and strings.
 Integers behave exactly the same as in Lua. If you don't use decimal characters they will be integers, otherwise not integers. In any case, both will be stored in memory as non-integers.
 
 Minicode is a Turing complete language and in theory allows you to implement any function.
@@ -19,6 +19,7 @@ Minicode is a Turing complete language and in theory allows you to implement any
 | ?    | Start of condition |
 | >>   | Write data to file |
 | &    | Run operating system command |
+| ->   | Include code file |
 
 Each line begins with one of these commands and is separated from the expressions by a space.
 
@@ -219,6 +220,14 @@ For example, this is how you can write the current version of your minicode into
 
 ```mc
 & a minicode --version
+```
+
+## Include file
+
+You can include another minicode file into your code. The code will connect and be executed immediately.
+
+```mc
+-> test/examples/hello_world.mc
 ```
 
 ## Some examples
