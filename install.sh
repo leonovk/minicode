@@ -58,7 +58,7 @@ if command -v $exe_name --version >/dev/null; then
     printf "Run '\e[1;32m%s --help\e[0m' to get started\n" "$exe_name"
 else
     echo "Manually add the directory to your \$HOME/.bash_profile (or similar)"
-    echo "  export PATH=${executable_folder}:\$PATH"
+    echo "  echo 'export PATH=${executable_folder}:\$PATH' >> .bash_profile"
     printf "Run '\e[1;32m%s --help\e[0m' to get started\n" "$exe_name"
 fi
 
