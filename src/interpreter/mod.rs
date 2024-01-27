@@ -7,13 +7,14 @@ mod calculate;
 mod condition;
 mod create;
 mod execute;
+mod include;
 mod print_file;
 mod print_value;
-use crate::code_runner::run;
 use calculate::calculate;
 use condition::condition;
 use create::create;
 use execute::execute;
+use include::include;
 use print_file::print_file;
 use print_value::print_value;
 
@@ -50,7 +51,7 @@ pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
             }
             PrintFile(key, path) => print_file(key, path, &addresses),
             Execute(k, c, arg) => execute(k, c, arg, &mut addresses),
-            Include(p, a) => run(p.to_string(), a.to_vec()),
+            Include(p, a) => include(p, a, &addresses),
             EmptyLine => {}
         }
 
