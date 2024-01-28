@@ -227,8 +227,10 @@ For example, this is how you can write the current version of your minicode into
 You can include another minicode file into your code. The code will connect and be executed immediately.
 
 ```mc
--> test/examples/hello_world.mc
+-> test/examples/hello_world.mcode
 ```
+
+Just like when running regular minicode code, you can pass arguments to the command line, which will be available as ARG_1, ARG_2 and so on in the list
 
 ## Some examples
 

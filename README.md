@@ -56,7 +56,7 @@ FROM minicode:latest
 
 COPY . .
 
-CMD ["minicode", "-p", "hello_world.mc"]
+CMD ["minicode", "-p", "hello_world.mcode"]
 ```
 
 ## Contributing
