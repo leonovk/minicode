@@ -1,0 +1,18 @@
+[] a
+> empty_line
+> word hello
+> i 0
+> char word i
+[]< a char
+= i + 1
+? char ! empty_line 5
+> h a 0
+> e a 1
+> l a 2
+> ll a 3
+> o a 4
+p h
+p e
+p l
+p ll
+p o

@@ -12,6 +12,7 @@ pub fn create<'a>(key: &'a String, value: &ValueType, target: &mut HashMap<&'a S
                 None => target.insert(key, value.clone()),
             },
         },
+        Arr(_arr) => target.insert(key, Arr(Vec::new())),
     };
 }
 
@@ -30,25 +31,39 @@ fn complex_assignments_value<'a>(
     }
 }
 
+// > a b 1
 fn multiple_values<'a>(
     values: Vec<&str>,
     target: &HashMap<&'a String, ValueType>,
 ) -> Option<ValueType> {
+    let index = match values[1].to_string().parse::<f64>() {
+        Ok(p) => p,
+        Err(_) => match target.get(&values[1].to_string()) {
+            Some(some) => match some {
+                Int(i) => *i,
+                _ => return None,
+            },
+            None => return None,
+        },
+    };
+
     match target.get(&values[0].to_string()) {
         Some(some) => match some {
             Int(_i) => None,
-            Line(str) => match values[1].to_string().parse::<f64>() {
-                Ok(parsed) => Some(Line(parse_char(str, parsed))),
-                Err(_) => match target.get(&values[1].to_string()) {
-                    Some(some_second) => match some_second {
-                        Int(sec_int) => Some(Line(parse_char(str, *sec_int))),
-                        Line(_l) => None,
-                    },
-                    None => None,
-                },
-            },
+            Line(l) => Some(Line(parse_char(l, index))),
+            Arr(arr) => Some(parse_elem(arr, index)),
         },
         None => None,
+    }
+}
+
+fn parse_elem(vec: &Vec<ValueType>, index: f64) -> ValueType {
+    let elem = &vec[index as usize];
+
+    match elem {
+        Line(l) => Line(l.to_string()),
+        Int(i) => Int(*i),
+        Arr(a) => Arr(a.to_vec()),
     }
 }
 
@@ -60,11 +75,13 @@ fn parse_char(str: &String, index: f64) -> String {
     }
 }
 
+// > a b
 fn one_value<'a>(values: Vec<&str>, target: &HashMap<&'a String, ValueType>) -> Option<ValueType> {
     match target.get(&values[0].to_string()) {
         Some(s) => match s {
             Int(int) => Some(Int(*int)),
             Line(str) => Some(Line(str.to_string())),
+            Arr(arr) => Some(Arr(arr.to_vec())),
         },
         None => None,
     }

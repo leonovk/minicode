@@ -5,6 +5,7 @@ use crate::opcode::ValueType::*;
 use std::collections::HashMap;
 use std::thread;
 use std::time::Duration;
+mod arrays;
 mod calculate;
 mod condition;
 mod create;
@@ -12,6 +13,7 @@ mod execute;
 mod include;
 mod print_file;
 mod print_value;
+use arrays::push;
 use calculate::calculate;
 use condition::condition;
 use create::create;
@@ -41,6 +43,7 @@ pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
 
         match operation {
             Create(k, v) => create(k, v, &mut addresses),
+            ArrayPush(k, v) => push(k, v, &mut addresses),
             Print(k) => print_value(k, &addresses),
             Operation(k, o, v) => calculate(k, o, v, &mut addresses),
             ErrorCode(e) => {

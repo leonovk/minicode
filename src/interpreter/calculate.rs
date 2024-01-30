@@ -12,7 +12,7 @@ pub fn calculate<'a>(
 ) {
     let old_value = match target.get(key).expect("Variable value not found") {
         Int(int) => int,
-        Line(_s) => panic!("wrong type for calculate"),
+        _ => panic!("wrong type for calculate"),
     };
 
     let operational_meaning = match value {
@@ -20,10 +20,11 @@ pub fn calculate<'a>(
         Line(str) => match target.get(str) {
             Some(some) => match some {
                 Int(link_int) => link_int,
-                Line(_line) => panic!("wrong type for calculate"),
+                _ => panic!("wrong type for calculate"),
             },
             None => panic!("wrong type for calculate"),
         },
+        Arr(_arr) => panic!("wrong type for calculate"),
     };
 
     target.insert(

@@ -18,6 +18,7 @@ pub fn include(
             Some(s) => match s {
                 Line(l) => result_args_value.push(l.to_string()),
                 Int(i) => result_args_value.push(i.to_string()),
+                Arr(_a) => panic!("You can't pass arrays as arguments"),
             },
         };
     }
