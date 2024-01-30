@@ -1,0 +1,2 @@
+f a tests/test_file.txt
+p a

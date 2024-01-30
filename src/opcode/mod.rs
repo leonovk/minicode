@@ -29,6 +29,7 @@ pub enum OpCode {
     Condition(String, ValueType, ComparisonOperators, usize),
     ErrorCode(String),
     Execute(String, String, Vec<String>),
-    Include(String, Vec<String>),
+    Include(String, Vec<String>, bool),
+    Sleep(u64),
     EmptyLine,
 }

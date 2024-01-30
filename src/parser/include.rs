@@ -1,7 +1,7 @@
 pub use crate::opcode::OpCode;
 pub use crate::opcode::OpCode::*;
 
-pub fn include(data: Vec<&str>) -> OpCode {
+pub fn include(data: Vec<&str>, stream: bool) -> OpCode {
     if data.len() < 2 {
         return ErrorCode("the operation is not specified correctly".to_string());
     }
@@ -14,7 +14,7 @@ pub fn include(data: Vec<&str>) -> OpCode {
         args.push(arg.to_string());
     }
 
-    Include(value_name, args)
+    Include(value_name, args, stream)
 }
 
 #[cfg(test)]
@@ -26,24 +26,28 @@ mod tests {
     #[test]
     fn test_include_one() {
         let data = vec!["->", "a", "b", "c"];
-        let result = include(data);
+        let result = include(data, false);
         assert_eq!(
             result,
-            Include("a".to_string(), vec!["b".to_string(), "c".to_string()])
+            Include(
+                "a".to_string(),
+                vec!["b".to_string(), "c".to_string()],
+                false
+            )
         );
     }
 
     #[test]
     fn test_include_two() {
         let data = vec!["->", "a"];
-        let result = include(data);
-        assert_eq!(result, Include("a".to_string(), vec![]));
+        let result = include(data, true);
+        assert_eq!(result, Include("a".to_string(), vec![], true));
     }
 
     #[test]
     fn test_include_three() {
         let data = vec!["p"];
-        let result = include(data);
+        let result = include(data, false);
         assert_eq!(
             result,
             ErrorCode("the operation is not specified correctly".to_string())

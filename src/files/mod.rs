@@ -36,7 +36,7 @@ mod tests {
 
     #[test]
     fn test_get_lines() {
-        let path = "test/test_file.txt".to_string();
+        let path = "tests/test_file.txt".to_string();
         assert_eq!(
             get_lines(&path),
             vec!["first".to_string(), "second".to_string()]
@@ -45,7 +45,7 @@ mod tests {
 
     #[test]
     fn test_get_content() {
-        let path = "test/test_file.txt".to_string();
+        let path = "tests/test_file.txt".to_string();
         assert_eq!(get_content(&path), "first\nsecond".to_string());
     }
 }

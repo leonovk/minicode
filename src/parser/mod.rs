@@ -6,6 +6,7 @@ mod file;
 mod include;
 mod opcode_parser;
 mod print;
+mod sleep;
 mod user_var;
 mod write;
 use crate::opcode::*;

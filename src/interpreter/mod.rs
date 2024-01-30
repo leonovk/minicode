@@ -3,6 +3,8 @@ use crate::opcode::OpCode::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
+use std::thread;
+use std::time::Duration;
 mod calculate;
 mod condition;
 mod create;
@@ -26,6 +28,8 @@ pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
     let code_max_point = operations.len() - 1;
     let mut pointer: usize = 0;
     let mut addresses: HashMap<&String, ValueType> = HashMap::new();
+    let mut parallel_computing = Vec::new();
+
     let c_args = parse_command_line_arguments(args);
 
     for (key, value) in &c_args {
@@ -51,11 +55,23 @@ pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
             }
             PrintFile(key, path) => print_file(key, path, &addresses),
             Execute(k, c, arg) => execute(k, c, arg, &mut addresses),
-            Include(p, a) => include(p, a, &addresses),
+            Include(p, a, s) => {
+                let result = include(p, a, &addresses, s);
+
+                match result {
+                    Some(h) => parallel_computing.push(h),
+                    None => {}
+                }
+            }
+            Sleep(i) => thread::sleep(Duration::from_secs(*i)),
             EmptyLine => {}
         }
 
         pointer += 1;
+    }
+
+    for compute in parallel_computing {
+        compute.join().expect("error");
     }
 }
 

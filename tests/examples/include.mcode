@@ -1,0 +1,9 @@
+p text one
+-> tests/examples/output_by_characters.mcode
+p done
+p text two
+> a 1
+> b 2
+> c 3
+-> tests/examples/cli.mcode a b c
+p done again

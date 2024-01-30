@@ -8,6 +8,7 @@ use super::exec::exec;
 use super::file::file;
 use super::include::include;
 use super::print::print;
+use super::sleep::sleep;
 use super::user_var::user_var;
 use super::write::file_write;
 
@@ -24,7 +25,9 @@ pub fn get_opcode(line: &String) -> OpCode {
         "?" => condition(data),
         ">>" => file_write(data),
         "&" => exec(data),
-        "->" => include(data),
+        "->" => include(data, false),
+        "-->" => include(data, true),
+        "sleep" => sleep(data),
         _ => ErrorCode("Could not recognize the command".to_string()),
     }
 }
@@ -52,7 +55,7 @@ mod tests {
 
     #[test]
     fn test_get_opcode_file() {
-        let ex1 = "f a test/test_file.txt".to_string();
+        let ex1 = "f a tests/test_file.txt".to_string();
 
         assert_eq!(
             get_opcode(&ex1),
