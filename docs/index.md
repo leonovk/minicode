@@ -232,6 +232,12 @@ You can include another minicode file into your code. The code will connect and 
 
 Just like when running regular minicode code, you can pass arguments to the command line, which will be available as ARG_1, ARG_2 and so on in the list
 
+If you specify a long arrow as a command, as in the example below, then the following code will be executed asynchronously.
+
+```mc
+--> tests/examples/hello_world.mcode
+```
+
 ## Some examples
 
 ### Fibonacci sequence
