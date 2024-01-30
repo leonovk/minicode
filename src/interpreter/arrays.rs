@@ -7,8 +7,8 @@ pub fn push<'a>(key: &'a String, value: &'a String, target: &mut HashMap<&'a Str
         Some(some) => some.clone(),
         None => match value.parse::<f64>() {
             Ok(i) => Int(i),
-            Err(_) => Line(value.to_string())
-        }
+            Err(_) => Line(value.to_string()),
+        },
     };
 
     let first_value: &mut Vec<ValueType> = match target.get_mut(key) {
