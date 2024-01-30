@@ -6,9 +6,9 @@ mod file;
 mod include;
 mod opcode_parser;
 mod print;
+mod sleep;
 mod user_var;
 mod write;
-mod sleep;
 use crate::opcode::*;
 
 pub fn parse(lines: &Vec<String>) -> Vec<OpCode> {

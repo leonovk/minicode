@@ -7,4 +7,3 @@ p text two
 > c 3
 -> tests/examples/cli.mcode a b c
 p done again
--> tests/examples/sleep.mcode

@@ -9,7 +9,7 @@ pub fn include(
     args: &Vec<String>,
     storage: &HashMap<&String, ValueType>,
     stream: &bool,
-) {
+) -> Option<JoinHandle<()>> {
     let mut result_args_value = Vec::new();
 
     for arg in args {
@@ -28,7 +28,9 @@ pub fn include(
             run(file_clone, result_args_value);
         });
 
+        Some(handle)
     } else {
         run(file.to_string(), result_args_value);
+        None
     }
 }
