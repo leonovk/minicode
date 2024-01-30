@@ -2,6 +2,8 @@ use crate::opcode::OpCode;
 use crate::opcode::OpCode::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
+use std::thread;
+use std::time::Duration;
 use std::collections::HashMap;
 mod calculate;
 mod condition;
@@ -52,6 +54,7 @@ pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
             PrintFile(key, path) => print_file(key, path, &addresses),
             Execute(k, c, arg) => execute(k, c, arg, &mut addresses),
             Include(p, a, s) => include(p, a, &addresses, s),
+            Sleep(i) => thread::sleep(Duration::from_secs(*i)),
             EmptyLine => {}
         }
 

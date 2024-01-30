@@ -1,0 +1,5 @@
+p start
+--> tests/examples/sleep.mcode
+--> tests/examples/sleep_2.mcode
+--> tests/examples/sleep_3.mcode
+p stop

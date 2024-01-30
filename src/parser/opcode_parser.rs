@@ -8,6 +8,7 @@ use super::exec::exec;
 use super::file::file;
 use super::include::include;
 use super::print::print;
+use super::sleep::sleep;
 use super::user_var::user_var;
 use super::write::file_write;
 
@@ -26,6 +27,7 @@ pub fn get_opcode(line: &String) -> OpCode {
         "&" => exec(data),
         "->" => include(data, false),
         "-->" => include(data, true),
+        "sleep" => sleep(data),
         _ => ErrorCode("Could not recognize the command".to_string()),
     }
 }
