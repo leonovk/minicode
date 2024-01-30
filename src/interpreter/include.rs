@@ -2,8 +2,14 @@ use crate::code_runner::run;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
+use std::thread;
 
-pub fn include(file: &String, args: &Vec<String>, storage: &HashMap<&String, ValueType>) {
+pub fn include(
+    file: &String,
+    args: &Vec<String>,
+    storage: &HashMap<&String, ValueType>,
+    stream: &bool,
+) {
     let mut result_args_value = Vec::new();
 
     for arg in args {
@@ -16,5 +22,12 @@ pub fn include(file: &String, args: &Vec<String>, storage: &HashMap<&String, Val
         };
     }
 
-    run(file.to_string(), result_args_value);
+    if *stream {
+        let file_clone = file.clone();
+        thread::spawn(move || {
+            run(file_clone, result_args_value);
+        });
+    } else {
+        run(file.to_string(), result_args_value);
+    }
 }

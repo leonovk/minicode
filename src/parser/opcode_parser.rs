@@ -24,7 +24,8 @@ pub fn get_opcode(line: &String) -> OpCode {
         "?" => condition(data),
         ">>" => file_write(data),
         "&" => exec(data),
-        "->" => include(data),
+        "->" => include(data, false),
+        "-->" => include(data, true),
         _ => ErrorCode("Could not recognize the command".to_string()),
     }
 }
@@ -52,7 +53,7 @@ mod tests {
 
     #[test]
     fn test_get_opcode_file() {
-        let ex1 = "f a test/test_file.txt".to_string();
+        let ex1 = "f a tests/test_file.txt".to_string();
 
         assert_eq!(
             get_opcode(&ex1),

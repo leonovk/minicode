@@ -51,7 +51,7 @@ pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
             }
             PrintFile(key, path) => print_file(key, path, &addresses),
             Execute(k, c, arg) => execute(k, c, arg, &mut addresses),
-            Include(p, a) => include(p, a, &addresses),
+            Include(p, a, s) => include(p, a, &addresses, s),
             EmptyLine => {}
         }
 
