@@ -2,6 +2,7 @@ pub use crate::opcode::OpCode;
 pub use crate::opcode::OpCode::*;
 
 use super::appropriation::appropriation;
+use super::arrays::*;
 use super::calculation::calculation;
 use super::condition::condition;
 use super::exec::exec;
@@ -18,6 +19,8 @@ pub fn get_opcode(line: &String) -> OpCode {
 
     match command {
         ">" => appropriation(data),
+        "[]" => appropriation_array(data),
+        "[]<" => push_array(data),
         "p" => print(data),
         "f" => file(data),
         "$>" => user_var(data),
@@ -27,7 +30,8 @@ pub fn get_opcode(line: &String) -> OpCode {
         "&" => exec(data),
         "->" => include(data, false),
         "-->" => include(data, true),
-        "sleep" => sleep(data),
+        "-_-" => sleep(data),
+        "#" => EmptyLine,
         _ => ErrorCode("Could not recognize the command".to_string()),
     }
 }

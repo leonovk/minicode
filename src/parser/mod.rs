@@ -1,4 +1,5 @@
 mod appropriation;
+mod arrays;
 mod calculation;
 mod condition;
 mod exec;

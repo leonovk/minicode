@@ -10,6 +10,7 @@ pub fn print_file(key: &String, path: &String, storage: &HashMap<&String, ValueT
     let printed_content = match value {
         Line(line) => line.to_string().replace("\\n", "\n"),
         Int(int) => int.to_string(),
+        Arr(_arr) => panic!("you can't print an array"),
     };
 
     match write_content_to_file(&printed_content, path) {

@@ -19,12 +19,13 @@ pub fn condition(
             Some(some) => condition_result(first_value, some, operator),
             None => condition_result(first_value, &Line(str.to_string()), operator),
         },
+        Arr(_arr) => panic!("you can't compare arrays"),
     }
 }
 
 fn condition_result(first: &ValueType, second: &ValueType, operator: &ComparisonOperators) -> bool {
     if type_are_different(first, second) {
-        panic!("You cannot compare values of different types!");
+        panic!("You cannot compare values of different types, or arrays!");
     }
 
     match operator {
@@ -36,6 +37,12 @@ fn condition_result(first: &ValueType, second: &ValueType, operator: &Comparison
 }
 
 fn type_are_different(v1: &ValueType, v2: &ValueType) -> bool {
+    if let ValueType::Arr(_) = v1 {
+        return true;
+    } else if let ValueType::Arr(_) = v2 {
+        return true;
+    }
+
     match (v1, v2) {
         (ValueType::Int(_), ValueType::Line(_)) => true,
         (ValueType::Line(_), ValueType::Int(_)) => true,

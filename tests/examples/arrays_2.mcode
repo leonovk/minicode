@@ -1,0 +1,13 @@
+[] a
+[]< a 23
+[]< a 10
+
+> b a 0
+> c a 1
+> sum 0
+
+= sum + b
+= sum + c
+
+# output: 33
+p sum

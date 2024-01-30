@@ -2,6 +2,7 @@
 pub enum ValueType {
     Int(f64),
     Line(String),
+    Arr(Vec<ValueType>),
 }
 
 #[derive(PartialEq, Debug)]
@@ -23,6 +24,7 @@ pub enum ComparisonOperators {
 #[derive(PartialEq, Debug)]
 pub enum OpCode {
     Create(String, ValueType),
+    ArrayPush(String, String),
     Print(String),
     PrintFile(String, String),
     Operation(String, OperationType, ValueType),
