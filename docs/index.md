@@ -4,7 +4,7 @@
 
 Minicode executes the code line by line, first compiling it into a certain set of commands. Which makes it a classic interpreted programming language. Each line of code in minicode begins with a command, followed by an expression.
 
-At the moment, the minicode has 9 commands and 2 data types, integers and strings.
+At the moment, the minicode has 11 commands and 3 data types, integers, strings and arrays.
 Integers behave exactly the same as in Lua. If you don't use decimal characters they will be integers, otherwise not integers. In any case, both will be stored in memory as non-integers.
 
 Minicode is a Turing complete language and in theory allows you to implement any function.
@@ -12,6 +12,8 @@ Minicode is a Turing complete language and in theory allows you to implement any
 | command | description |
 |----------|----------|
 | >    | Assigns a value to the specified variable. Meaning, if the value can be parsed into an integer, it will do so.   |
+| []   | Initializing an empty array |
+| []<  | Add a new element to the end of the array |
 | p    | Displays the value from the specified variable   |
 | f    | Tries to find a file at the specified path, and puts all its contents into the specified variable  |
 | $>   | Asks the user for a value, if it can be represented as an integer, it will be represented as such |
@@ -20,6 +22,7 @@ Minicode is a Turing complete language and in theory allows you to implement any
 | >>   | Write data to file |
 | &    | Run operating system command |
 | ->   | Include code file |
+| -_-  | Stop the code thread |
 
 Each line begins with one of these commands and is separated from the expressions by a space.
 
@@ -65,6 +68,48 @@ Here the variable b will contain the string - "e"
 ```mc
 > a hello
 > b a 1
+```
+
+You can also select elements from an array.
+
+Arrays are created as follows:
+
+```mc
+# here in variable 'a' we initialize an empty array.
+[] a
+
+# here we put a new value at the end of the array.
+[]< a 43
+```
+
+An example of how to fill an array with characters from the word 'hello'
+
+```mc
+# First we fill the array
+
+[] a
+> empty_line
+> word hello
+> i 0
+> char word i
+[]< a char
+= i + 1
+? char ! empty_line 7
+
+# Then we select the necessary elements from it and put them in variables
+# and print to the screen
+
+> h a 0
+> e a 1
+> l a 2
+> ll a 3
+> o a 4
+
+p h
+p e
+p l
+p ll
+p o
 ```
 
 In such cases, the value of other variables can also act as an index. If nothing is found at the address of the variable 'a', then a new line will simply be created - "a 1".
