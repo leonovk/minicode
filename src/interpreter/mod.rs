@@ -114,7 +114,7 @@ fn pointer_updater(
             }
             _ => Err("error 1".to_string()),
         },
-        Err(_e) => Err("error 2".to_string()),
+        Err(e) => Err(e),
     }
 }
 

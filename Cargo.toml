@@ -1,6 +1,6 @@
 [package]
 name = "minicode"
-version = "1.4.1"
+version = "1.4.2"
 authors = ["Kirill Leonov <leonov7632@gmail.com>"]
 edition = "2021"
 repository = "https://github.com/leonovk/minicode"
