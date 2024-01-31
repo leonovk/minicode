@@ -1,10 +1,14 @@
+use super::opcode_result_type::*;
 use crate::files::write_content_to_file;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
-use super::opcode_result_type::*;
 
-pub fn print_file(key: &String, path: &String, storage: &HashMap<&String, ValueType>) -> Result<OpCodeResultType, String> {
+pub fn print_file(
+    key: &String,
+    path: &String,
+    storage: &HashMap<&String, ValueType>,
+) -> Result<OpCodeResultType, String> {
     let binding = Line(key.to_string());
     let value = storage.get(key).unwrap_or(&binding);
 

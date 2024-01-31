@@ -1,7 +1,7 @@
+use super::opcode_result_type::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
-use super::opcode_result_type::*;
 
 pub fn push<'a>(
     key: &'a String,

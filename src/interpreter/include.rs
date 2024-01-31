@@ -1,9 +1,9 @@
+use super::opcode_result_type::*;
 use crate::code_runner::run;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
 use std::thread;
-use super::opcode_result_type::*;
 
 pub fn include(
     file: &String,

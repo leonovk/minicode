@@ -1,9 +1,9 @@
+use super::opcode_result_type::*;
 use crate::opcode::ComparisonOperators;
 use crate::opcode::ComparisonOperators::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
-use super::opcode_result_type::*;
 
 pub fn condition(
     key: &String,
@@ -25,11 +25,15 @@ pub fn condition(
 
     match result {
         Ok(b) => Ok(OpCodeResultType::Bool(b)),
-        Err(e) => Err(e)
+        Err(e) => Err(e),
     }
 }
 
-fn condition_result(first: &ValueType, second: &ValueType, operator: &ComparisonOperators) -> Result<bool, String> {
+fn condition_result(
+    first: &ValueType,
+    second: &ValueType,
+    operator: &ComparisonOperators,
+) -> Result<bool, String> {
     if type_are_different(first, second) {
         return Err("You cannot compare values of different types, or arrays!".to_string());
     }
@@ -73,7 +77,7 @@ mod tests {
 
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, true),
-            _ => panic!("test_condition_int_one")
+            _ => panic!("test_condition_int_one"),
         };
     }
 
@@ -85,7 +89,7 @@ mod tests {
         let result = condition(&String::from("test_key"), &Equals, &Int(5.0), &map).unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, false),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -97,7 +101,7 @@ mod tests {
         let result = condition(&String::from("test_key"), &NotEquals, &Int(10.0), &map).unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, false),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -109,7 +113,7 @@ mod tests {
         let result = condition(&String::from("test_key"), &NotEquals, &Int(5.0), &map).unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, true),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -124,10 +128,11 @@ mod tests {
             &Equals,
             &Line("5".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, false),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -141,10 +146,11 @@ mod tests {
             &Equals,
             &Line("10".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, true),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -158,10 +164,11 @@ mod tests {
             &Equals,
             &Line("5".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, false),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -175,10 +182,11 @@ mod tests {
             &NotEquals,
             &Line("10".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, false),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -192,10 +200,11 @@ mod tests {
             &NotEquals,
             &Line("5".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, true),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -211,10 +220,11 @@ mod tests {
             &Equals,
             &Line("test_key_2".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, true),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -230,10 +240,11 @@ mod tests {
             &NotEquals,
             &Line("test_key_2".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, false),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -249,10 +260,11 @@ mod tests {
             &Equals,
             &Line("test_key_2".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, false),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -268,10 +280,11 @@ mod tests {
             &NotEquals,
             &Line("test_key_2".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, true),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -287,10 +300,11 @@ mod tests {
             &Equals,
             &Line("test_key_2".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, true),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -306,10 +320,11 @@ mod tests {
             &NotEquals,
             &Line("test_key_2".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, false),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -325,10 +340,11 @@ mod tests {
             &NotEquals,
             &Line("test_key_2".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, true),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -344,10 +360,11 @@ mod tests {
             &Equals,
             &Line("test_key_2".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, false),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -359,10 +376,11 @@ mod tests {
             &Equals,
             &Line("test_key_2".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, false),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -374,10 +392,11 @@ mod tests {
             &Equals,
             &Line("test_key".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, true),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -389,10 +408,11 @@ mod tests {
             &More,
             &Line("test_key".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, true),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 
@@ -404,10 +424,11 @@ mod tests {
             &Less,
             &Line("test_key".to_string()),
             &map,
-        ).unwrap();
+        )
+        .unwrap();
         match result {
             OpCodeResultType::Bool(b) => assert_eq!(b, true),
-            _ => panic!("test_condition_int_two")
+            _ => panic!("test_condition_int_two"),
         };
     }
 }

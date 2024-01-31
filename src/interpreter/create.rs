@@ -1,7 +1,7 @@
+use super::opcode_result_type::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
-use super::opcode_result_type::*;
 
 pub fn create<'a>(
     key: &'a String,
@@ -104,7 +104,7 @@ mod tests {
     fn test_basic_create_one() {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
-        create(&binding, &Int(10.0), &mut map);
+        let _ = create(&binding, &Int(10.0), &mut map);
         let result = map.get(&binding);
         assert_eq!(result, Some(&Int(10.0)));
     }
@@ -113,7 +113,7 @@ mod tests {
     fn test_basic_create_two() {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
-        create(&binding, &Line("b 2".to_string()), &mut map);
+        let _ = create(&binding, &Line("b 2".to_string()), &mut map);
         let result = map.get(&binding);
         assert_eq!(result, Some(&Line("b 2".to_string())));
     }
@@ -122,7 +122,7 @@ mod tests {
     fn test_basic_create_three() {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
-        create(&binding, &Line("qwert".to_string()), &mut map);
+        let _ = create(&binding, &Line("qwert".to_string()), &mut map);
         let result = map.get(&binding);
         assert_eq!(result, Some(&Line("qwert".to_string())));
     }
@@ -135,7 +135,7 @@ mod tests {
 
         map.insert(&old_key, Int(10.0));
 
-        create(&new_key, &Line("old_key".to_string()), &mut map);
+        let _ = create(&new_key, &Line("old_key".to_string()), &mut map);
 
         let result_1 = map.get(&old_key);
         let result_2 = map.get(&new_key);
@@ -152,7 +152,7 @@ mod tests {
 
         map.insert(&old_key, Line("line".to_string()));
 
-        create(&new_key, &Line("old_key".to_string()), &mut map);
+        let _ = create(&new_key, &Line("old_key".to_string()), &mut map);
 
         let result_1 = map.get(&old_key);
         let result_2 = map.get(&new_key);
@@ -169,7 +169,7 @@ mod tests {
 
         map.insert(&old_key, Line("line".to_string()));
 
-        create(&new_key, &Line("old_key 1".to_string()), &mut map);
+        let _ = create(&new_key, &Line("old_key 1".to_string()), &mut map);
 
         let result_1 = map.get(&old_key);
         let result_2 = map.get(&new_key);
@@ -186,7 +186,7 @@ mod tests {
 
         map.insert(&old_key, Line("line".to_string()));
 
-        create(&new_key, &Line("old_key 1.43".to_string()), &mut map);
+        let _ = create(&new_key, &Line("old_key 1.43".to_string()), &mut map);
 
         let result_1 = map.get(&old_key);
         let result_2 = map.get(&new_key);
@@ -203,7 +203,7 @@ mod tests {
 
         map.insert(&old_key, Line("line".to_string()));
 
-        create(&new_key, &Line("old_key 1.93".to_string()), &mut map);
+        let _ = create(&new_key, &Line("old_key 1.93".to_string()), &mut map);
 
         let result_1 = map.get(&old_key);
         let result_2 = map.get(&new_key);
@@ -222,7 +222,7 @@ mod tests {
         map.insert(&old_key, Line("line".to_string()));
         map.insert(&old_key_2, Int(1.0));
 
-        create(&new_key, &Line("old_key old_key_2".to_string()), &mut map);
+        let _ = create(&new_key, &Line("old_key old_key_2".to_string()), &mut map);
 
         let result_1 = map.get(&old_key);
         let result_2 = map.get(&new_key);
@@ -239,7 +239,7 @@ mod tests {
 
         map.insert(&old_key, Int(1.0));
 
-        create(&new_key, &Line("old_key 2".to_string()), &mut map);
+        let _ = create(&new_key, &Line("old_key 2".to_string()), &mut map);
 
         let result_1 = map.get(&old_key);
         let result_2 = map.get(&new_key);
@@ -258,7 +258,7 @@ mod tests {
         map.insert(&old_key, Line("line".to_string()));
         map.insert(&old_key_2, Int(10.0));
 
-        create(&new_key, &Line("old_key old_key_2".to_string()), &mut map);
+        let _ = create(&new_key, &Line("old_key old_key_2".to_string()), &mut map);
 
         let result_1 = map.get(&old_key);
         let result_2 = map.get(&new_key);

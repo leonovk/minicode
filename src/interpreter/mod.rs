@@ -11,18 +11,18 @@ mod condition;
 mod create;
 mod execute;
 mod include;
+mod opcode_result_type;
 mod print_file;
 mod print_value;
-mod opcode_result_type;
 use arrays::push;
 use calculate::calculate;
 use condition::condition;
 use create::create;
 use execute::execute;
 use include::include;
+use opcode_result_type::*;
 use print_file::print_file;
 use print_value::print_value;
-use opcode_result_type::*;
 
 pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
     if operations.is_empty() {
@@ -48,17 +48,26 @@ pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
             ArrayPush(k, v) => push(k, v, &mut addresses),
             Print(k) => print_value(k, &addresses),
             Operation(k, o, v) => calculate(k, o, v, &mut addresses),
-            ErrorCode(e) => {
-                println!("{} - line - {}", e, pointer + 1);
-                break;
+            ErrorCode(_e) => Err("error code 5".to_string()),
+            Condition(k, v, b, p) => {
+                pointer_updater(&mut pointer, p, condition(k, b, v, &addresses))
             }
-            Condition(k, v, b, p) => pointer_updater(&mut pointer, p, condition(k, b, v, &addresses)),
             PrintFile(key, path) => print_file(key, path, &addresses),
             Execute(k, c, arg) => execute(k, c, arg, &mut addresses),
-            Include(p, a, s) => push_new_thread(&mut parallel_computing, include(p, a, &addresses, s)),
-            Sleep(i) => thread::sleep(Duration::from_secs(*i)),
-            EmptyLine => {}
+            Include(p, a, s) => {
+                push_new_thread(&mut parallel_computing, include(p, a, &addresses, s))
+            }
+            Sleep(i) => go_sleep(i),
+            EmptyLine => Ok(OpCodeResultType::Empty),
         };
+
+        match result {
+            Ok(_) => {}
+            Err(e) => {
+                println!("{} line - {}", e, pointer + 1);
+                return;
+            }
+        }
 
         pointer += 1;
     }
@@ -68,11 +77,30 @@ pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
     }
 }
 
-fn push_new_thread(threads: &mut Vec<JoinHandle<()>>, result: Result<OpCodeResultType, String>) -> Result<OpCodeResultType, String> {
-
+fn push_new_thread(
+    threads: &mut Vec<thread::JoinHandle<()>>,
+    result: Result<OpCodeResultType, String>,
+) -> Result<OpCodeResultType, String> {
+    match result {
+        Ok(o) => match o {
+            OpCodeResultType::Thread(th) => match th {
+                Some(s) => {
+                    threads.push(s);
+                    Ok(OpCodeResultType::Empty)
+                }
+                None => Ok(OpCodeResultType::Empty),
+            },
+            _ => Err("error 4".to_string()),
+        },
+        Err(e) => Err(e),
+    }
 }
 
-fn pointer_updater(pointer: &mut usize, new: &usize, result: Result<OpCodeResultType, String>) -> Result<OpCodeResultType, String> {
+fn pointer_updater(
+    pointer: &mut usize,
+    new: &usize,
+    result: Result<OpCodeResultType, String>,
+) -> Result<OpCodeResultType, String> {
     match result {
         Ok(o) => match o {
             OpCodeResultType::Bool(b) => {
@@ -82,10 +110,10 @@ fn pointer_updater(pointer: &mut usize, new: &usize, result: Result<OpCodeResult
                 } else {
                     Ok(OpCodeResultType::Empty)
                 }
-            },
-            _ => Err("error 1".to_string())
+            }
+            _ => Err("error 1".to_string()),
         },
-        Err(e) => Err("error 2".to_string())
+        Err(_e) => Err("error 2".to_string()),
     }
 }
 
@@ -104,6 +132,12 @@ fn parse_command_line_arguments(args: Vec<String>) -> HashMap<String, ValueType>
     }
 
     addresses
+}
+
+fn go_sleep(i: &u64) -> Result<OpCodeResultType, String> {
+    thread::sleep(Duration::from_secs(*i));
+
+    Ok(OpCodeResultType::Empty)
 }
 
 fn new_pointer(pointer: &mut usize, new: &usize) {

@@ -1,9 +1,9 @@
+use super::opcode_result_type::*;
 use crate::opcode::OperationType;
 use crate::opcode::OperationType::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
-use super::opcode_result_type::*;
 
 pub fn calculate<'a>(
     key: &'a String,
@@ -61,7 +61,7 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         map.insert(&binding, Int(10.0));
-        calculate(&binding, &OperationType::Increment, &Int(5.0), &mut map);
+        let _ = calculate(&binding, &OperationType::Increment, &Int(5.0), &mut map);
         assert_eq!(map.get(&String::from("test_key")), Some(&Int(15.0)));
     }
 
@@ -72,7 +72,7 @@ mod tests {
         let binding_2 = String::from("test_key_2");
         map.insert(&binding, Int(10.0));
         map.insert(&binding_2, Int(5.0));
-        calculate(
+        let _ = calculate(
             &binding,
             &OperationType::Increment,
             &Line("test_key_2".to_string()),
@@ -86,7 +86,7 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         map.insert(&binding, Int(10.0));
-        calculate(&binding, &OperationType::Decrement, &Int(3.0), &mut map);
+        let _ = calculate(&binding, &OperationType::Decrement, &Int(3.0), &mut map);
         assert_eq!(map.get(&String::from("test_key")), Some(&Int(7.0)));
     }
 
@@ -97,7 +97,7 @@ mod tests {
         let binding_2 = String::from("test_key_2");
         map.insert(&binding, Int(10.0));
         map.insert(&binding_2, Int(5.0));
-        calculate(
+        let _ = calculate(
             &binding,
             &OperationType::Decrement,
             &Line("test_key_2".to_string()),
@@ -111,7 +111,7 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         map.insert(&binding, Int(10.0));
-        calculate(
+        let _ = calculate(
             &binding,
             &OperationType::Multiplication,
             &Int(3.0),
@@ -127,7 +127,7 @@ mod tests {
         let binding_2 = String::from("test_key_2");
         map.insert(&binding, Int(10.0));
         map.insert(&binding_2, Int(5.0));
-        calculate(
+        let _ = calculate(
             &binding,
             &OperationType::Multiplication,
             &Line("test_key_2".to_string()),
@@ -141,7 +141,7 @@ mod tests {
         let mut map: HashMap<&String, ValueType> = HashMap::new();
         let binding = String::from("test_key");
         map.insert(&binding, Int(10.0));
-        calculate(&binding, &OperationType::Division, &Int(3.0), &mut map);
+        let _ = calculate(&binding, &OperationType::Division, &Int(3.0), &mut map);
         assert_eq!(
             map.get(&String::from("test_key")),
             Some(&Int(3.3333333333333335))
@@ -155,7 +155,7 @@ mod tests {
         let binding_2 = String::from("test_key_2");
         map.insert(&binding, Int(10.0));
         map.insert(&binding_2, Int(5.0));
-        calculate(
+        let _ = calculate(
             &binding,
             &OperationType::Division,
             &Line("test_key_2".to_string()),

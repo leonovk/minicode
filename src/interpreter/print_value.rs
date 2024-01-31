@@ -1,9 +1,12 @@
+use super::opcode_result_type::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
-use super::opcode_result_type::*;
 
-pub fn print_value(key: &String, storage: &HashMap<&String, ValueType>) -> Result<OpCodeResultType, String> {
+pub fn print_value(
+    key: &String,
+    storage: &HashMap<&String, ValueType>,
+) -> Result<OpCodeResultType, String> {
     let value = storage.get(key);
 
     match value {
