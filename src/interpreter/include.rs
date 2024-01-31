@@ -1,15 +1,16 @@
+use super::opcode_result_type::*;
 use crate::code_runner::run;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
-use std::thread::{self, JoinHandle};
+use std::thread;
 
 pub fn include(
     file: &String,
     args: &Vec<String>,
     storage: &HashMap<&String, ValueType>,
     stream: &bool,
-) -> Option<JoinHandle<()>> {
+) -> Result<OpCodeResultType, String> {
     let mut result_args_value = Vec::new();
 
     for arg in args {
@@ -18,7 +19,7 @@ pub fn include(
             Some(s) => match s {
                 Line(l) => result_args_value.push(l.to_string()),
                 Int(i) => result_args_value.push(i.to_string()),
-                Arr(_a) => panic!("You can't pass arrays as arguments"),
+                Arr(_a) => return Err("You can't pass arrays as arguments".to_string()),
             },
         };
     }
@@ -29,9 +30,9 @@ pub fn include(
             run(file_clone, result_args_value);
         });
 
-        Some(handle)
+        Ok(OpCodeResultType::Thread(Some(handle)))
     } else {
         run(file.to_string(), result_args_value);
-        None
+        Ok(OpCodeResultType::Thread(None))
     }
 }
