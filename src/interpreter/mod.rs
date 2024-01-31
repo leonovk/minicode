@@ -9,6 +9,7 @@ mod arrays;
 mod calculate;
 mod condition;
 mod create;
+mod error_printer;
 mod execute;
 mod include;
 mod opcode_result_type;
@@ -24,7 +25,7 @@ use opcode_result_type::*;
 use print_file::print_file;
 use print_value::print_value;
 
-pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
+pub fn exegete(operations: Vec<OpCode>, args: Vec<String>, file: &String) {
     if operations.is_empty() {
         return;
     }
@@ -64,7 +65,7 @@ pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
         match result {
             Ok(_) => {}
             Err(e) => {
-                println!("{} line - {}", e, pointer + 1);
+                error_printer::print_error(file, pointer + 1, &e);
                 return;
             }
         }

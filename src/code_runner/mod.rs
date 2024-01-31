@@ -5,5 +5,5 @@ use crate::parser::parse;
 pub fn run(file: String, args: Vec<String>) {
     let lines = get_lines(&file);
     let result = parse(&lines);
-    exegete(result, args);
+    exegete(result, args, &file);
 }
