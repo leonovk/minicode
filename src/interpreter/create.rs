@@ -1,8 +1,13 @@
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
+use super::opcode_result_type::*;
 
-pub fn create<'a>(key: &'a String, value: &ValueType, target: &mut HashMap<&'a String, ValueType>) {
+pub fn create<'a>(
+    key: &'a String,
+    value: &ValueType,
+    target: &mut HashMap<&'a String, ValueType>,
+) -> Result<OpCodeResultType, String> {
     match value {
         Int(int) => target.insert(key, Int(*int)),
         Line(str) => match target.get(str) {
@@ -14,6 +19,8 @@ pub fn create<'a>(key: &'a String, value: &ValueType, target: &mut HashMap<&'a S
         },
         Arr(_arr) => target.insert(key, Arr(Vec::new())),
     };
+
+    Ok(OpCodeResultType::Empty)
 }
 
 fn complex_assignments_value<'a>(

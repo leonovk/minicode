@@ -3,16 +3,20 @@ use crate::opcode::OperationType::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
+use super::opcode_result_type::*;
 
 pub fn calculate<'a>(
     key: &'a String,
     o_type: &OperationType,
     value: &ValueType,
     target: &mut HashMap<&'a String, ValueType>,
-) {
-    let old_value = match target.get(key).expect("Variable value not found") {
-        Int(int) => int,
-        _ => panic!("wrong type for calculate"),
+) -> Result<OpCodeResultType, String> {
+    let old_value = match target.get(key) {
+        Some(s) => match s {
+            Int(int) => int,
+            _ => return Err("wrong type for calculate".to_string()),
+        },
+        None => return Err("Value not found".to_string()),
     };
 
     let operational_meaning = match value {
@@ -20,17 +24,19 @@ pub fn calculate<'a>(
         Line(str) => match target.get(str) {
             Some(some) => match some {
                 Int(link_int) => link_int,
-                _ => panic!("wrong type for calculate"),
+                _ => return Err("wrong type for calculate".to_string()),
             },
-            None => panic!("wrong type for calculate"),
+            None => return Err("wrong type for calculate".to_string()),
         },
-        Arr(_arr) => panic!("wrong type for calculate"),
+        Arr(_arr) => return Err("wrong type for calculate".to_string()),
     };
 
     target.insert(
         key,
         calculate_new_value(old_value, operational_meaning, o_type),
     );
+
+    Ok(OpCodeResultType::Empty)
 }
 
 fn calculate_new_value(old_value: &f64, oper_value: &f64, o_type: &OperationType) -> ValueType {

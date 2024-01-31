@@ -13,6 +13,7 @@ mod execute;
 mod include;
 mod print_file;
 mod print_value;
+mod opcode_result_type;
 use arrays::push;
 use calculate::calculate;
 use condition::condition;
@@ -21,6 +22,7 @@ use execute::execute;
 use include::include;
 use print_file::print_file;
 use print_value::print_value;
+use opcode_result_type::*;
 
 pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
     if operations.is_empty() {
@@ -41,7 +43,7 @@ pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
     while pointer <= code_max_point {
         let operation = &operations[pointer];
 
-        match operation {
+        let result = match operation {
             Create(k, v) => create(k, v, &mut addresses),
             ArrayPush(k, v) => push(k, v, &mut addresses),
             Print(k) => print_value(k, &addresses),
@@ -50,31 +52,40 @@ pub fn exegete(operations: Vec<OpCode>, args: Vec<String>) {
                 println!("{} - line - {}", e, pointer + 1);
                 break;
             }
-            Condition(k, v, b, p) => {
-                let result = condition(k, b, v, &addresses);
-                if result {
-                    new_pointer(&mut pointer, p);
-                }
-            }
+            Condition(k, v, b, p) => pointer_updater(&mut pointer, p, condition(k, b, v, &addresses)),
             PrintFile(key, path) => print_file(key, path, &addresses),
             Execute(k, c, arg) => execute(k, c, arg, &mut addresses),
-            Include(p, a, s) => {
-                let result = include(p, a, &addresses, s);
-
-                match result {
-                    Some(h) => parallel_computing.push(h),
-                    None => {}
-                }
-            }
+            Include(p, a, s) => push_new_thread(&mut parallel_computing, include(p, a, &addresses, s)),
             Sleep(i) => thread::sleep(Duration::from_secs(*i)),
             EmptyLine => {}
-        }
+        };
 
         pointer += 1;
     }
 
     for compute in parallel_computing {
-        compute.join().expect("error");
+        compute.join().expect("error 3");
+    }
+}
+
+fn push_new_thread(threads: &mut Vec<JoinHandle<()>>, result: Result<OpCodeResultType, String>) -> Result<OpCodeResultType, String> {
+
+}
+
+fn pointer_updater(pointer: &mut usize, new: &usize, result: Result<OpCodeResultType, String>) -> Result<OpCodeResultType, String> {
+    match result {
+        Ok(o) => match o {
+            OpCodeResultType::Bool(b) => {
+                if b {
+                    new_pointer(pointer, new);
+                    Ok(OpCodeResultType::Empty)
+                } else {
+                    Ok(OpCodeResultType::Empty)
+                }
+            },
+            _ => Err("error 1".to_string())
+        },
+        Err(e) => Err("error 2".to_string())
     }
 }
 
