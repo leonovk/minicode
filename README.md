@@ -26,6 +26,14 @@ minicode --version
 
 Command `--help` will offer you a list of possible commands
 
+If the minicode command was not found, most likely you need to enter a new path in the settings of your .bash_profile (or similar)
+
+```bash
+echo 'export PATH=${executable_folder}:\$PATH' >> .bash_profile
+```
+
+In this case, an example of such a command will be shown to you at the end of the installation script.
+
 ## Update
 
 To update your version to the latest use the following command
