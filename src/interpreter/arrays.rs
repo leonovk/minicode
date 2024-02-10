@@ -28,3 +28,42 @@ pub fn push<'a>(
 
     Ok(OpCodeResultType::Empty)
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use pretty_assertions::assert_eq;
+    use std::collections::HashMap;
+
+    #[test]
+    fn test_push_to_array() {
+        let mut target: HashMap<&String, ValueType> = HashMap::new();
+        let key = String::from("key");
+        let value = String::from("123");
+        let arr = Vec::<ValueType>::new();
+
+        target.insert(&key, Arr(arr));
+
+        let result = push(&key, &value, &mut target);
+
+        match result {
+            Ok(r) => match r {
+                OpCodeResultType::Empty => {}
+                _ => panic!("not expected result! 1"),
+            },
+            Err(_e) => panic!("not expected result! 2"),
+        }
+
+        let arr = match target.get(&key) {
+            Some(ValueType::Arr(arr)) => arr,
+            _ => panic!("Expected an array"),
+        };
+
+        assert_eq!(arr.len(), 1);
+
+        match arr[0] {
+            Int(i) => assert_eq!(i, 123.0),
+            _ => panic!("Expected an integer"),
+        }
+    }
+}
