@@ -5,6 +5,7 @@ mod condition;
 mod exec;
 mod file;
 mod include;
+mod network;
 mod opcode_parser;
 mod print;
 mod sleep;

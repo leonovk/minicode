@@ -1,4 +1,5 @@
-use super::opcode_result_type::*;
+use crate::opcode::OpCodeResultType;
+use crate::opcode::OpCodeResultType::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
@@ -20,7 +21,7 @@ pub fn create<'a>(
         Arr(_arr) => target.insert(key, Arr(Vec::new())),
     };
 
-    Ok(OpCodeResultType::Empty)
+    Ok(Empty)
 }
 
 fn complex_assignments_value<'a>(

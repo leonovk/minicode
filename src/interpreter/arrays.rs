@@ -1,4 +1,5 @@
-use super::opcode_result_type::*;
+use crate::opcode::OpCodeResultType;
+use crate::opcode::OpCodeResultType::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
@@ -26,7 +27,7 @@ pub fn push<'a>(
 
     first_value.push(second_value);
 
-    Ok(OpCodeResultType::Empty)
+    Ok(Empty)
 }
 
 #[cfg(test)]

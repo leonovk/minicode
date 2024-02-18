@@ -1,5 +1,6 @@
-use super::opcode_result_type::*;
 use crate::code_runner::run;
+use crate::opcode::OpCodeResultType;
+use crate::opcode::OpCodeResultType::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
@@ -30,9 +31,9 @@ pub fn include(
             run(file_clone, result_args_value);
         });
 
-        Ok(OpCodeResultType::Thread(Some(handle)))
+        Ok(Thread(Some(handle)))
     } else {
         run(file.to_string(), result_args_value);
-        Ok(OpCodeResultType::Thread(None))
+        Ok(Thread(None))
     }
 }

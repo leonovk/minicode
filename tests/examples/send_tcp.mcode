@@ -1,0 +1,4 @@
+> address 127.0.0.1:1509
+> message hello from minicode
+@ address message
+p done
