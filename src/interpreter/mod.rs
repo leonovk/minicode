@@ -13,16 +13,16 @@ mod condition;
 mod create;
 mod execute;
 mod include;
-mod print;
 mod network;
+mod print;
 use arrays::push;
 use calculate::calculate;
 use condition::condition;
 use create::create;
 use execute::execute;
 use include::include;
-use print::*;
 use network::*;
+use print::*;
 
 pub fn exegete(operations: Vec<OpCode>, args: Vec<String>, file: &String) {
     if operations.is_empty() {
