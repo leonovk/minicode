@@ -32,6 +32,7 @@ pub enum OpCode {
     ErrorCode(String),
     Execute(String, String, Vec<String>),
     Include(String, Vec<String>, bool),
+    SendTcp(String, String),
     Sleep(u64),
     EmptyLine,
 }

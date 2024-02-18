@@ -8,6 +8,7 @@ use super::condition::condition;
 use super::exec::exec;
 use super::file::file;
 use super::include::include;
+use super::network::send_tcp;
 use super::print::print;
 use super::sleep::sleep;
 use super::user_var::user_var;
@@ -31,6 +32,7 @@ pub fn get_opcode(line: &String) -> OpCode {
         "->" => include(data, false),
         "-->" => include(data, true),
         "-_-" => sleep(data),
+        "@" => send_tcp(data),
         "#" => EmptyLine,
         _ => ErrorCode("Could not recognize the command".to_string()),
     }
