@@ -4,7 +4,7 @@
 
 Minicode executes the code line by line, first compiling it into a certain set of commands. Which makes it a classic interpreted programming language. Each line of code in minicode begins with a command, followed by an expression.
 
-At the moment, the minicode has 11 commands and 3 data types, integers, strings and arrays.
+At the moment, the minicode has 13 commands and 3 data types, integers, strings and arrays.
 Integers behave exactly the same as in Lua. If you don't use decimal characters they will be integers, otherwise not integers. In any case, both will be stored in memory as non-integers.
 
 Minicode is a Turing complete language and in theory allows you to implement any function.
@@ -23,6 +23,7 @@ Minicode is a Turing complete language and in theory allows you to implement any
 | &    | Run operating system command |
 | ->   | Include code file |
 | -_-  | Stop the code thread |
+| @    | Send a message via TCP |
 
 Each line begins with one of these commands and is separated from the expressions by a space.
 
@@ -32,19 +33,19 @@ The variable creation operation symbol is always followed by its name. There is 
 
 Here variable a will contain an empty string.
 
-```mc
+```mcode
 > a
 ```
 
 Here the variable a will contain the number 324.
 
-```mc
+```mcode
 > a 324
 ```
 
 Here the variable a will contain the string - "hello world"
 
-```mc
+```mcode
 > a hello world
 ```
 
@@ -54,7 +55,7 @@ If you pass a string as the second argument, the minicode will try to find a pre
 
 Here the variable b will contain the number 324.
 
-```mc
+```mcode
 > a 324
 > b a
 ```
@@ -65,7 +66,7 @@ For example, if we want to copy not the entire string into a new variable, but o
 
 Here the variable b will contain the string - "e"
 
-```mc
+```mcode
 > a hello
 > b a 1
 ```
@@ -74,7 +75,7 @@ You can also select elements from an array.
 
 Arrays are created as follows:
 
-```mc
+```mcode
 # here in variable 'a' we initialize an empty array.
 [] a
 
@@ -84,7 +85,7 @@ Arrays are created as follows:
 
 An example of how to fill an array with characters from the word 'hello'
 
-```mc
+```mcode
 # First we fill the array
 
 [] a
@@ -114,13 +115,30 @@ p o
 
 In such cases, the value of other variables can also act as an index. If nothing is found at the address of the variable 'a', then a new line will simply be created - "a 1".
 
+Minicode supports dynamic heterogeneous arrays that automatically resize and can contain elements of any type.
+
+```mcode
+[] first_array
+> a text_1
+> b 12
+[] second_array
+[]< first_array a
+[]< first_array b
+[]< second_array first_array
+> arr second_array 0
+> b_num arr 1
+> num 23
+= num + b_num
+p num
+```
+
 ## Console output
 
 You can display the contents of a variable to the console using the command `p`
 
 For example:
 
-```mc
+```mcode
 p a
 ```
 
@@ -130,7 +148,7 @@ Using the `f` command you can read from a file
 
 For example:
 
-```mc
+```mcode
 f a test/test_file.txt
 ```
 
@@ -140,13 +158,13 @@ Using the `$>` command you can request values from users. The value will also be
 
 For example:
 
-```mc
+```mcode
 $> a
 ```
 
 Also, as the third parameter, you can specify the text that will be shown to the user when requesting a value. For example:
 
-```mc
+```mcode
 $> a text
 ```
 
@@ -156,7 +174,7 @@ Arithmetic operations begin with the command `=`, then there is always a variabl
 
 For example, this way you can increase the value of the variable 'a' by 12
 
-```mc
+```mcode
 = a + 12
 ```
 
@@ -164,7 +182,7 @@ You can also chain variables together.
 
 As a result of this operation, the variable 'a' will be increased by the value of the variable 'b'
 
-```mc
+```mcode
 = a + b
 ```
 
@@ -172,7 +190,7 @@ The same thing works with subtraction, multiplication and division.
 
 An example of a program that displays the word 'hello' line by line:
 
-```mc
+```mcode
 > empty_line
 > a hello
 > i 0
@@ -184,7 +202,7 @@ p char
 
 If you need to find the sum of two numbers, you can do this:
 
-```mc
+```mcode
 > int1 23
 > int2 32
 > sum 0
@@ -203,19 +221,19 @@ The condition command takes an expression that should return true and the line n
 
 This operation moves the interpreter to line 5 if the value in the variable 'a' is zero.
 
-```mc
+```mcode
 ? a = 0 5
 ```
 
 For example, if a equals not 0, move the interpreter to the fifth line:
 
-```mc
+```mcode
 ? a ! 0 5
 ```
 
 Here's how, for example, to implement a loop that displays the message hello world 5 times:
 
-```mc
+```mcode
 > a 0
 > b Hello world
 = a + 1
@@ -227,7 +245,7 @@ You can also compare variables with each other. The only condition is that the v
 
 For example, the following code will display only `just text` on the screen
 
-```mc
+```mcode
 > a lol
 > b lol
 ? a = b 6
@@ -252,7 +270,7 @@ Using the >> command, you can easily write the contents of any variable or speci
 
 For example:
 
-```mc
+```mcode
 > a hello world
 >> test/test.txt a
 ```
@@ -263,7 +281,7 @@ Using the '&' command you can easily execute any command on your operating syste
 
 For example, this is how you can write the current version of your minicode into a variable:
 
-```mc
+```mcode
 & a minicode --version
 ```
 
@@ -271,7 +289,7 @@ For example, this is how you can write the current version of your minicode into
 
 You can include another minicode file into your code. The code will connect and be executed immediately.
 
-```mc
+```mcode
 -> tests/examples/hello_world.mcode
 ```
 
@@ -279,8 +297,19 @@ Just like when running regular minicode code, you can pass arguments to the comm
 
 If you specify a long arrow as a command, as in the example below, then the following code will be executed asynchronously.
 
-```mc
+```mcode
 --> tests/examples/hello_world.mcode
+```
+
+## Work with network
+
+Using minicode, you can send messages using the TCH protocol. This allows, in theory, to implement drivers for working with databases and more.
+
+```mcode
+> address 127.0.0.1:1509
+> message hello from minicode
+@ address message
+p done
 ```
 
 ## Some examples
@@ -289,7 +318,7 @@ If you specify a long arrow as a command, as in the example below, then the foll
 
 The code asks the user for the maximum number to which the sequence needs to be built
 
-```mc
+```mcode
 $> max
 > i 0
 > first 0
