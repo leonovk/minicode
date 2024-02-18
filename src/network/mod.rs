@@ -1,18 +1,12 @@
-use std::io::{Read, Write};
+use std::io::Write;
 use std::net::TcpStream;
 
-pub fn send_tcp_message(addr: &String, message: &String) -> Result<String, String> {
-    let mut stream = TcpStream::connect(addr).map_err(|e| format!("Failed to connect: {}", e))?;
+pub fn send_tcp_message(addr: &String, message: &String) -> std::io::Result<()> {
+    // Подключаемся к серверу по указанному IP и порту
+    let mut stream = TcpStream::connect(addr)?;
 
-    stream
-        .write_all(message.as_bytes())
-        .map_err(|e| format!("Failed to write to stream: {}", e))?;
+    // Отправляем сообщение
+    stream.write_all(message.as_bytes())?;
 
-    let mut response = String::new();
-
-    stream
-        .read_to_string(&mut response)
-        .map_err(|e| format!("Failed to read response: {}", e))?;
-
-    Ok(response)
+    Ok(())
 }

@@ -25,7 +25,7 @@ pub fn send_tcp(
     // +_+
     match result {
         Ok(_ok) => Ok(Empty),
-        Err(er) => Err(er),
+        Err(er) => Err(er.to_string()),
     }
 }
 
