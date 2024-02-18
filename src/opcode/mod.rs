@@ -1,3 +1,5 @@
+use std::thread::JoinHandle;
+
 #[derive(PartialEq, Debug, Clone, PartialOrd)]
 pub enum ValueType {
     Int(f64),
@@ -35,4 +37,10 @@ pub enum OpCode {
     SendTcp(String, String),
     Sleep(u64),
     EmptyLine,
+}
+
+pub enum OpCodeResultType {
+    Bool(bool),
+    Thread(Option<JoinHandle<()>>),
+    Empty,
 }

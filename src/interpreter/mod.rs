@@ -1,5 +1,7 @@
 use crate::opcode::OpCode;
 use crate::opcode::OpCode::*;
+use crate::opcode::OpCodeResultType;
+use crate::opcode::OpCodeResultType::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
@@ -11,16 +13,16 @@ mod condition;
 mod create;
 mod execute;
 mod include;
-mod opcode_result_type;
 mod print;
+mod network;
 use arrays::push;
 use calculate::calculate;
 use condition::condition;
 use create::create;
 use execute::execute;
 use include::include;
-use opcode_result_type::*;
 use print::*;
+use network::*;
 
 pub fn exegete(operations: Vec<OpCode>, args: Vec<String>, file: &String) {
     if operations.is_empty() {
@@ -55,9 +57,9 @@ pub fn exegete(operations: Vec<OpCode>, args: Vec<String>, file: &String) {
             Include(p, a, s) => {
                 push_new_thread(&mut parallel_computing, include(p, a, &addresses, s))
             }
-            SendTcp(_adr, _mes) => Ok(OpCodeResultType::Empty),
+            SendTcp(addr, mes) => send_tcp(addr, mes, &addresses),
             Sleep(i) => go_sleep(i),
-            EmptyLine => Ok(OpCodeResultType::Empty),
+            EmptyLine => Ok(Empty),
         };
 
         match result {

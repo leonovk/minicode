@@ -1,5 +1,6 @@
-use super::opcode_result_type::*;
 use crate::files::write_content_to_file;
+use crate::opcode::OpCodeResultType;
+use crate::opcode::OpCodeResultType::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
@@ -19,7 +20,7 @@ pub fn print_value(
         None => println!("{}", key),
     };
 
-    Ok(OpCodeResultType::Empty)
+    Ok(Empty)
 }
 
 pub fn print_file(

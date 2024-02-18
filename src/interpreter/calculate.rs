@@ -1,4 +1,5 @@
-use super::opcode_result_type::*;
+use crate::opcode::OpCodeResultType;
+use crate::opcode::OpCodeResultType::*;
 use crate::opcode::OperationType;
 use crate::opcode::OperationType::*;
 use crate::opcode::ValueType;
@@ -36,7 +37,7 @@ pub fn calculate<'a>(
         calculate_new_value(old_value, operational_meaning, o_type),
     );
 
-    Ok(OpCodeResultType::Empty)
+    Ok(Empty)
 }
 
 fn calculate_new_value(old_value: &f64, oper_value: &f64, o_type: &OperationType) -> ValueType {

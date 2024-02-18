@@ -1,9 +1,9 @@
+use crate::opcode::OpCodeResultType;
+use crate::opcode::OpCodeResultType::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
 use std::process::Command;
-
-use super::OpCodeResultType;
 
 pub fn execute<'a>(
     key: &'a String,
@@ -22,5 +22,5 @@ pub fn execute<'a>(
 
     target.insert(key, Line(result));
 
-    Ok(OpCodeResultType::Empty)
+    Ok(Empty)
 }

@@ -1,6 +1,7 @@
-use super::opcode_result_type::*;
 use crate::opcode::ComparisonOperators;
 use crate::opcode::ComparisonOperators::*;
+use crate::opcode::OpCodeResultType;
+use crate::opcode::OpCodeResultType::*;
 use crate::opcode::ValueType;
 use crate::opcode::ValueType::*;
 use std::collections::HashMap;
@@ -24,7 +25,7 @@ pub fn condition(
     };
 
     match result {
-        Ok(b) => Ok(OpCodeResultType::Bool(b)),
+        Ok(b) => Ok(Bool(b)),
         Err(e) => Err(e),
     }
 }

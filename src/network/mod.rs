@@ -1,8 +1,7 @@
 use std::io::{Read, Write};
 use std::net::TcpStream;
 
-#[warn(dead_code)]
-pub fn send_tcp_message(message: &String, addr: &String) -> Result<String, String> {
+pub fn send_tcp_message(addr: &String, message: &String, ) -> Result<String, String> {
     let mut stream = TcpStream::connect(addr).map_err(|e| format!("Failed to connect: {}", e))?;
 
     stream
