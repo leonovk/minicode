@@ -6,6 +6,6 @@ edition = "2021"
 repository = "https://github.com/leonovk/minicode"
 
 [dependencies]
-clap = { version = "4.5.3", features = ["derive"] }
+clap = { version = "4.5.4", features = ["derive"] }
 pretty_assertions = "1.4.0"
 self_update = { version = "0.39.0", features = ["archive-tar", "archive-zip", "compression-flate2"] }
