@@ -4,6 +4,13 @@ version = "1.4.3"
 authors = ["Kirill Leonov <leonov7632@gmail.com>"]
 edition = "2021"
 repository = "https://github.com/leonovk/minicode"
+homepage = "https://github.com/leonovk/minicode"
+license = "GPL-3.0 license"
+description = "Esoteric programming language"
+exclude = [
+    ".github",
+    "docs",
+]
 
 [dependencies]
 clap = { version = "4.5.4", features = ["derive"] }
