@@ -17,7 +17,7 @@ pub fn parse(lines: &Vec<String>) -> Vec<OpCode> {
     let mut result: Vec<OpCode> = Vec::new();
 
     for line in lines {
-        if line == "" {
+        if line.is_empty() {
             result.push(OpCode::EmptyLine);
             continue;
         }

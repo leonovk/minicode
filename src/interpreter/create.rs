@@ -24,9 +24,9 @@ pub fn create<'a>(
     Ok(Empty)
 }
 
-fn complex_assignments_value<'a>(
+fn complex_assignments_value(
     expression: &String,
-    target: &HashMap<&'a String, ValueType>,
+    target: &HashMap<&String, ValueType>,
 ) -> Option<ValueType> {
     let values: Vec<&str> = expression.split_whitespace().collect();
 
@@ -40,9 +40,9 @@ fn complex_assignments_value<'a>(
 }
 
 // > a b 1
-fn multiple_values<'a>(
+fn multiple_values(
     values: Vec<&str>,
-    target: &HashMap<&'a String, ValueType>,
+    target: &HashMap<&String, ValueType>,
 ) -> Option<ValueType> {
     let index = match values[1].to_string().parse::<f64>() {
         Ok(p) => p,
@@ -77,14 +77,14 @@ fn parse_elem(vec: &Vec<ValueType>, index: f64) -> ValueType {
 
 fn parse_char(str: &String, index: f64) -> String {
     if (index as usize) > (str.len() - 1) {
-        return "".to_string();
+        "".to_string()
     } else {
         return str.chars().nth(index as usize).unwrap().to_string();
     }
 }
 
 // > a b
-fn one_value<'a>(values: Vec<&str>, target: &HashMap<&'a String, ValueType>) -> Option<ValueType> {
+fn one_value(values: Vec<&str>, target: &HashMap<&String, ValueType>) -> Option<ValueType> {
     match target.get(&values[0].to_string()) {
         Some(s) => match s {
             Int(int) => Some(Int(*int)),

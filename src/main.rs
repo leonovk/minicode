@@ -30,7 +30,7 @@ fn main() {
             println!("[ERROR] {}", e);
             ::std::process::exit(1);
         }
-    } else if cli.path != None {
+    } else if cli.path.is_some() {
         let path = cli.path.unwrap();
         let args = cli.args.unwrap_or(vec![]);
         code_runner::run(path, args);
