@@ -40,10 +40,7 @@ fn complex_assignments_value(
 }
 
 // > a b 1
-fn multiple_values(
-    values: Vec<&str>,
-    target: &HashMap<&String, ValueType>,
-) -> Option<ValueType> {
+fn multiple_values(values: Vec<&str>, target: &HashMap<&String, ValueType>) -> Option<ValueType> {
     let index = match values[1].to_string().parse::<f64>() {
         Ok(p) => p,
         Err(_) => match target.get(&values[1].to_string()) {
