@@ -13,6 +13,6 @@ exclude = [
 ]
 
 [dependencies]
-clap = { version = "4.5.8", features = ["derive"] }
+clap = { version = "4.5.13", features = ["derive"] }
 pretty_assertions = "1.4.0"
 self_update = { version = "0.41.0", features = ["archive-tar", "archive-zip", "compression-flate2"] }
