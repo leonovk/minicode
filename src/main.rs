@@ -1,11 +1,6 @@
 use clap::Parser;
-mod code_runner;
-mod files;
-mod interpreter;
-mod network;
-mod opcode;
-mod parser;
 mod self_update;
+use minicode_core::code_runner;
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
