@@ -1,0 +1,12 @@
+[package]
+name = "minicode-core"
+version = "1.4.4"
+authors = ["Kirill Leonov <leonov7632@gmail.com>"]
+edition = "2021"
+repository = "https://github.com/leonovk/minicode"
+homepage = "https://github.com/leonovk/minicode"
+license = "GPL-3.0"
+description = "Esoteric programming language"
+
+[dependencies]
+pretty_assertions = "1.4.0"

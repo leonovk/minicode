@@ -1,6 +1,11 @@
+[workspace]
+members = [
+    "core",
+]
+
 [package]
-name = "minicode"
-version = "1.4.4"
+name = "minicode-cli"
+version = "1.5.0"
 authors = ["Kirill Leonov <leonov7632@gmail.com>"]
 edition = "2021"
 repository = "https://github.com/leonovk/minicode"
@@ -14,5 +19,5 @@ exclude = [
 
 [dependencies]
 clap = { version = "4.5.13", features = ["derive"] }
-pretty_assertions = "1.4.0"
+minicode-core = { path = "./core" }
 self_update = { version = "0.41.0", features = ["archive-tar", "archive-zip", "compression-flate2"] }
