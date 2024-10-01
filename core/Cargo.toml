@@ -9,4 +9,4 @@ license = "GPL-3.0"
 description = "Esoteric programming language"
 
 [dependencies]
-pretty_assertions = "1.4.0"
+pretty_assertions = "1.4.1"
