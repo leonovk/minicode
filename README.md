@@ -2,6 +2,8 @@
 
 ## Esoteric programming language
 
+## Why? Just for fun!
+
 [Documentation here](https://leonovk.github.io/minicode/)
 
 ![Build Status](https://github.com/leonovk/minicode/actions/workflows/ci.yml/badge.svg)
