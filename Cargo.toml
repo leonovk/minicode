@@ -5,7 +5,7 @@ members = [
 
 [package]
 name = "minicode"
-version = "1.5.2"
+version = "1.5.3"
 authors = ["Kirill Leonov <leonov7632@gmail.com>"]
 edition = "2021"
 repository = "https://github.com/leonovk/minicode"
@@ -20,4 +20,3 @@ exclude = [
 [dependencies]
 clap = { version = "4.5.21", features = ["derive"] }
 minicode-core = { path = "./core" }
-self_update = { version = "0.41.0", features = ["archive-tar", "archive-zip", "compression-flate2"] }
