@@ -18,5 +18,5 @@ exclude = [
 ]
 
 [dependencies]
-clap = { version = "4.5.46", features = ["derive"] }
+clap = { version = "4.5.48", features = ["derive"] }
 minicode-core = { path = "./core" }
