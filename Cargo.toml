@@ -5,7 +5,7 @@ members = [
 
 [package]
 name = "minicode"
-version = "1.5.3"
+version = "1.5.4"
 authors = ["Kirill Leonov <leonov7632@gmail.com>"]
 edition = "2021"
 repository = "https://github.com/leonovk/minicode"
